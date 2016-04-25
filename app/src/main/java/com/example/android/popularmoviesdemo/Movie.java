@@ -1,6 +1,8 @@
 package com.example.android.popularmoviesdemo;
 
 
+import java.util.List;
+
 public class Movie {
 
     private String title;
@@ -39,6 +41,16 @@ public class Movie {
     public void setBackdrop(String backdrop) {
         this.backdrop = backdrop;
     }
+
+    public static class MovieResult {
+        private List<Movie> results;
+
+        public List<Movie> getResults() {
+            return results;
+        }
+    }
+
+
 }
 
 

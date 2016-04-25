@@ -12,18 +12,16 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MoviesAdapter extends RecyclerView.Adapter<MainActivity.MovieViewHolder>
-{
+public class MoviesAdapter extends RecyclerView.Adapter<MainActivity.MovieViewHolder> {
 
     private List<Movie> mMovieList;
     private LayoutInflater mInflater;
     private Context mContext;
 
-    public MoviesAdapter(Context context)
-    {
+    public MoviesAdapter(Context context) {
         this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
-        this.MovieList = new ArrayList<>();
+        this.mMovieList = new ArrayList<>();
     }
 
     @Override

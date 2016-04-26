@@ -13,9 +13,11 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit.Callback;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new MoviesAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
         List<Movie> movies = new ArrayList<>();
+        getPopularMovies();
 
         for (int i = 0; i < 25; i++) {
             movies.add(new Movie());
@@ -40,36 +43,32 @@ public class MainActivity extends AppCompatActivity {
         mAdapter.setMovieList(movies);
     }
 
-    RestAdapter restAdapter = new RestAdapter.Builder()
-            .setEndpoint("http://api.themoviedb.org/3")
-            .setRequestInterceptor(new RequestInterceptor() {
-                @Override
-                public void intercept(RequestFacade request) {
-                    request.addEncodedQueryParam("api_key", "YOUR_API_KEY");
-                }
-            })
-            .setLogLevel(RestAdapter.LogLevel.FULL)
-            .build();
-    MoviesApiService service = restAdapter.create(MoviesApiService.class);
-    service.getPopularMovies(new Callback<Movie.MovieResult>()
+    private void getPopularMovies() {
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint("http://api.themovieb.org/3")
+                .setRequestInterceptor(new RequestInterceptor() {
+                    @Override
+                    public void intercept(RequestFacade request) {
+                        request.addEncodedQueryParam("api_key", "My_Api_Key");
+                    }
+                })
+                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .build();
+        MoviesApiService service = restAdapter.create(MoviesApiService.class);
+        service.getPopularMovies(new Callback<Movie.MovieResult>() {
+            @Override
+            public void success(Movie.MovieResult movieResult, Response response) {
+                mAdapter.setMovieList(movieResult.getResults());
+            }
 
-    {
-        @Override
-        public void success (Movie.MovieResult movieResult, Response response){
-        mAdapter.setMovieList(movieResult.getResults());
-
+            @Override
+            public void failure(RetrofitError error) {
+                error.printStackTrace();
+            }
+        });
     }
-        @Override
-        public void failure (RetrofitError error){
-        error.printStackTrace();
-    }
 
 
-    });
-
-
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;

@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class Movie {
-    public static final TMDB_IMAGE_PATH="http://image.tmdb.org/t/p/w500";
+    public static final String TMDB_IMAGE_PATH = "http://image.tmdb.org/t/p/w500";
 
     private String title;
 

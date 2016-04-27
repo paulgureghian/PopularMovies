@@ -45,11 +45,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void getPopularMovies() {
         RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint("http://api.themovieb.org/3")
+                .setEndpoint("http://api.themoviedb.org/3")
                 .setRequestInterceptor(new RequestInterceptor() {
                     @Override
                     public void intercept(RequestFacade request) {
-                        request.addEncodedQueryParam("api_key", "My_Api_Key");
+                        request.addEncodedQueryParam("api_key",BuildConfig.TMDB_API_KEY);
                     }
                 })
                 .setLogLevel(RestAdapter.LogLevel.FULL)

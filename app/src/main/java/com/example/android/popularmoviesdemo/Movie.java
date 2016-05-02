@@ -1,11 +1,8 @@
 package com.example.android.popularmoviesdemo;
 
-
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 public class Movie implements Parcelable {
@@ -18,8 +15,7 @@ public class Movie implements Parcelable {
     @SerializedName("backdrop_path")
     private String backdrop;
 
-    public Movie() {
-    }
+    public Movie() {}
 
     protected Movie(Parcel in) {
         title = in.readString();
@@ -49,7 +45,7 @@ public class Movie implements Parcelable {
     }
 
     public String getPoster() {
-        return "http://image.tmdb.org/t/pw500" + poster;
+        return "http://image.tmdb.org/t/p/w500" + poster;
     }
 
     public void setPoster(String poster) {

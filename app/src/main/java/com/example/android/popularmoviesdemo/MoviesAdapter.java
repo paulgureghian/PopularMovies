@@ -14,9 +14,10 @@ import java.util.List;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MainActivity.MovieViewHolder> {
 
-    private List<Movie> mMovieList;
-    private LayoutInflater mInflater;
-    private Context mContext;
+
+    public static List<Movie> mMovieList;
+    public static LayoutInflater mInflater;
+    public static Context mContext;
 
     public MoviesAdapter(Context context) {
         this.mContext = context;
@@ -42,7 +43,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MainActivity.MovieViewHo
     }
 
     @Override
-    public int getItemCount() {
+    public  int getItemCount() {
         return (mMovieList == null) ? 0 : mMovieList.size();
     }
 

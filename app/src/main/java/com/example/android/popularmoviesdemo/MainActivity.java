@@ -1,5 +1,6 @@
 package com.example.android.popularmoviesdemo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -8,7 +9,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +25,8 @@ import retrofit.client.Response;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
-    private MoviesAdapter mAdapter;
+    public MoviesAdapter mAdapter;
+    private com.example.android.popularmoviesdemo.MoviesAdapter MoviesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
                 .setRequestInterceptor(new RequestInterceptor() {
                     @Override
                     public void intercept(RequestFacade request) {
-                        request.addEncodedQueryParam("api_key",BuildConfig.TMDB_API_KEY);
+                        request.addEncodedQueryParam("api_key", BuildConfig.TMDB_API_KEY);
                     }
                 })
                 .setLogLevel(RestAdapter.LogLevel.FULL)
@@ -93,9 +98,58 @@ public class MainActivity extends AppCompatActivity {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.imageView);
         }
-
-
     }
 
 
+    public MovieViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
+        View view = MoviesAdapter.mInflater.inflate(R.layout.row_movie, parent, false);
+        final MovieViewHolder viewHolder = new MovieViewHolder(view);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int posistion = viewHolder.getAdapterPosition();
+                Intent intent = new Intent(MoviesAdapter.mContext, MovieDetailActivity.class);
+                intent.putExtra(MovieDetailActivity.EXTRA_MOVIE, MoviesAdapter.mMovieList.get(posistion));
+                MoviesAdapter.mContext.startActivity(intent);
+            }
+        });
+
+        return viewHolder;
+    }
+
+
+    public void onBindViewHolder(MovieViewHolder holder, int position) {
+        Movie movie = MoviesAdapter.mMovieList.get(position);
+        Picasso.with(MoviesAdapter.mContext)
+                .load(movie.getPoster())
+                .placeholder(R.color.colorAccent)
+                .into(holder.imageView);
+    }
+
+
+    public int getItemCount() {
+        return (MoviesAdapter.mMovieList == null) ? 0 : MoviesAdapter.mMovieList.size();
+    }
+
+    public void setMovieList(List<Movie> movieList) {
+        this.MoviesAdapter.mMovieList = new ArrayList<>();
+        this.MoviesAdapter.mMovieList.addAll(movieList);
+        MoviesAdapter.notifyDataSetChanged();
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

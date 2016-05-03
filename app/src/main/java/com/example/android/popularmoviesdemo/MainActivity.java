@@ -2,6 +2,7 @@ package com.example.android.popularmoviesdemo;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,9 +29,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.content_main);
+        setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setLogo(R.mipmap.ic_launcher);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));

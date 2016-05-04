@@ -25,7 +25,7 @@ public class MovieDetailActivity extends AppCompatActivity {
             mMovie = getIntent().getParcelableExtra(EXTRA_MOVIE);
 
         } else {
-            throw new IllegalArgumentException("Detailactivity must recieve a movie parcelable");
+            throw new IllegalArgumentException("Detail activity must receive a movie parcelable");
 
         }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

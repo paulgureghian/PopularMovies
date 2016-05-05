@@ -7,6 +7,8 @@ import java.util.List;
 
 public class Movie implements Parcelable {
 
+
+    private String date;
     private String title;
     @SerializedName("poster_path")
     private String poster;
@@ -18,6 +20,7 @@ public class Movie implements Parcelable {
     public Movie() {}
 
     protected Movie(Parcel in) {
+        date = in.readString();
         title = in.readString();
         poster = in.readString();
         description = in.readString();
@@ -35,6 +38,9 @@ public class Movie implements Parcelable {
             return new Movie[size];
         }
     };
+
+    public String getDate() {return date;}
+    public void  setDate (String date){this.date = date;}
 
     public String getTitle() {
         return title;
@@ -75,6 +81,7 @@ public class Movie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(date);
         parcel.writeString(title);
         parcel.writeString(poster);
         parcel.writeString(description);

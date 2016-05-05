@@ -12,9 +12,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
 import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import retrofit.Callback;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
@@ -46,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
         }
         mAdapter.setMovieList(movies);
     }
-
     private void getPopularMovies() {
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://api.themoviedb.org/3")
@@ -64,20 +66,16 @@ public class MainActivity extends AppCompatActivity {
             public void success(Movie.MovieResult movieResult, Response response) {
                 mAdapter.setMovieList(movieResult.getResults());
             }
-
             @Override
             public void failure(RetrofitError error) {
                 error.printStackTrace();
             }
         });
     }
-
-
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -85,36 +83,28 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
-
     public static class MovieViewHolder extends RecyclerView.ViewHolder {
-
         public ImageView imageView;
-
         public MovieViewHolder(View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.imageView);
         }
     }
-
-
     public MovieViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
         View view = MoviesAdapter.mInflater.inflate(R.layout.row_movie, parent, false);
         final MovieViewHolder viewHolder = new MovieViewHolder(view);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(this, MovieDetailActivity.class);
+                Intent intent = new Intent(MainActivity.this, MovieDetailActivity.class);
                 startActivity(intent);
             }
         });
 
         return viewHolder;
     }
-
-
     public void onBindViewHolder(MovieViewHolder holder, int position) {
         Movie movie = MoviesAdapter.mMovieList.get(position);
         Picasso.with(MoviesAdapter.mContext)
@@ -123,11 +113,9 @@ public class MainActivity extends AppCompatActivity {
                 .into(holder.imageView);
     }
 
-
     public int getItemCount() {
         return (MoviesAdapter.mMovieList == null) ? 0 : MoviesAdapter.mMovieList.size();
     }
-
     public void setMovieList(List<Movie> movieList) {
         this.MoviesAdapter.mMovieList = new ArrayList<>();
         this.MoviesAdapter.mMovieList.addAll(movieList);

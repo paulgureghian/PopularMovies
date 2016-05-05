@@ -11,7 +11,7 @@ import com.squareup.picasso.Picasso;
 public class MovieDetailActivity extends AppCompatActivity {
     public static final String EXTRA_MOVIE = "movie";
 
-    private Movie mMovie;
+    Movie mMovie;
     ImageView backdrop;
     ImageView poster;
     TextView title;

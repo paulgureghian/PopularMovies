@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public class MovieViewHolder extends RecyclerView.ViewHolder {
+    public static class MovieViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView imageView;
 
@@ -106,10 +106,8 @@ public class MainActivity extends AppCompatActivity {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int posistion = viewHolder.getAdapterPosition();
-                Intent intent = new Intent(MoviesAdapter.mContext, MovieDetailActivity.class);
-                intent.putExtra(MovieDetailActivity.EXTRA_MOVIE, MoviesAdapter.mMovieList.get(posistion));
-                MoviesAdapter.mContext.startActivity(intent);
+                Intent intent = new Intent(this, MovieDetailActivity.class);
+                startActivity(intent);
             }
         });
 

@@ -1,5 +1,6 @@
 package com.example.android.popularmoviesdemo;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -7,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,8 +28,7 @@ import retrofit.client.Response;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
-    public MoviesAdapter mAdapter;
-    private com.example.android.popularmoviesdemo.MoviesAdapter MoviesAdapter;
+    private MoviesAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,42 +88,56 @@ public class MainActivity extends AppCompatActivity {
     }
     public static class MovieViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
+
         public MovieViewHolder(View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.imageView);
         }
     }
-    public MovieViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
-        View view = MoviesAdapter.mInflater.inflate(R.layout.row_movie, parent, false);
-        final MovieViewHolder viewHolder = new MovieViewHolder(view);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, MovieDetailActivity.class);
-                startActivity(intent);
-            }
-        });
+    public static class MoviesAdapter extends RecyclerView.Adapter<MovieViewHolder> {
 
-        return viewHolder;
-    }
-    public void onBindViewHolder(MovieViewHolder holder, int position) {
-        Movie movie = MoviesAdapter.mMovieList.get(position);
-        Picasso.with(MoviesAdapter.mContext)
-                .load(movie.getPoster())
-                .placeholder(R.color.colorAccent)
-                .into(holder.imageView);
-    }
+        private List<Movie> mMovieList;
+        private LayoutInflater mInflater;
+        private Context mContext;
 
-    public int getItemCount() {
-        return (MoviesAdapter.mMovieList == null) ? 0 : MoviesAdapter.mMovieList.size();
-    }
-    public void setMovieList(List<Movie> movieList) {
-        this.MoviesAdapter.mMovieList = new ArrayList<>();
-        this.MoviesAdapter.mMovieList.addAll(movieList);
-        MoviesAdapter.notifyDataSetChanged();
+        public MoviesAdapter(Context context) {
+            this.mContext = context;
+            this.mInflater = LayoutInflater.from(context);
+        }
+        @Override
+        public MovieViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
+            View view = mInflater.inflate(R.layout.row_movie, parent, false);
+            final MovieViewHolder viewHolder = new MovieViewHolder(view);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = viewHolder.getAdapterPosition();
+                    Intent intent = new Intent(mContext, MovieDetailActivity.class);
+                    intent.putExtra(MovieDetailActivity.EXTRA_MOVIE, mMovieList.get(position));
+                    mContext.startActivity(intent);
+                }
+            });
+            return viewHolder;
+        }
+        @Override
+        public void onBindViewHolder(MovieViewHolder holder, int position) {
+            Movie movie = mMovieList.get(position);
+            Picasso.with(mContext)
+                    .load(movie.getPoster())
+                    .placeholder(R.color.colorAccent)
+                    .into(holder.imageView);
+        }
+        @Override
+        public int getItemCount() {
+            return (mMovieList == null) ? 0 : mMovieList.size();
+        }
+        public void setMovieList(List<Movie> movieList) {
+            this.mMovieList = new ArrayList<>();
+            this.mMovieList.addAll(movieList);
+            notifyDataSetChanged();
+        }
     }
 }
-
 
 
 

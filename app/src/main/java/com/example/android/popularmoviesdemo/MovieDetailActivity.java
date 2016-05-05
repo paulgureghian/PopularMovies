@@ -14,7 +14,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     Movie mMovie;
     ImageView backdrop;
     ImageView poster;
-    TextView date;
+    TextView release_date;
     TextView title;
     TextView description;
 
@@ -35,7 +35,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         toolbarLayout.setTitle(mMovie.getTitle());
 
         backdrop = (ImageView) findViewById(R.id.backdrop);
-        date = (TextView) findViewById(R.id.date);
+        release_date = (TextView) findViewById(R.id.release_date);
         title = (TextView) findViewById(R.id.movie_title);
         description = (TextView) findViewById(R.id.movie_description);
         poster = (ImageView) findViewById(R.id.movie_poster);

@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
+
         MoviesApiService service = restAdapter.create(MoviesApiService.class);
         service.getPopularMovies(new Callback<Movie.MovieResult>() {
             @Override

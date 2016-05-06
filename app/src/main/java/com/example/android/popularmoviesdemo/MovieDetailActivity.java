@@ -1,12 +1,18 @@
 package com.example.android.popularmoviesdemo;
 
 import android.os.Bundle;
+import android.support.design.*;
+import android.support.design.BuildConfig;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.squareup.picasso.Picasso;
+
+import retrofit.RequestInterceptor;
+import retrofit.RestAdapter;
 
 public class MovieDetailActivity extends AppCompatActivity {
     public static final String EXTRA_MOVIE = "movie";
@@ -14,7 +20,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     Movie mMovie;
     ImageView backdrop;
     ImageView poster;
-    TextView release_date;
+    TextView release_dates;
     TextView title;
     TextView description;
 
@@ -35,11 +41,12 @@ public class MovieDetailActivity extends AppCompatActivity {
         toolbarLayout.setTitle(mMovie.getTitle());
 
         backdrop = (ImageView) findViewById(R.id.backdrop);
-        release_date = (TextView) findViewById(R.id.release_date);
+        release_dates = (TextView) findViewById(R.id.release_dates);
         title = (TextView) findViewById(R.id.movie_title);
         description = (TextView) findViewById(R.id.movie_description);
         poster = (ImageView) findViewById(R.id.movie_poster);
 
+        release_dates.setText(mMovie.getRelease_dates());
         title.setText(mMovie.getTitle());
         description.setText(mMovie.getDescription());
         Picasso.with(this)
@@ -51,4 +58,6 @@ public class MovieDetailActivity extends AppCompatActivity {
 
 
     }
+
 }
+

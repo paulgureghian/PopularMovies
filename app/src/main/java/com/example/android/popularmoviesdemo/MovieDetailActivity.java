@@ -20,7 +20,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     Movie mMovie;
     ImageView backdrop;
     ImageView poster;
-    TextView release_dates;
+    TextView date;
     TextView title;
     TextView description;
 
@@ -41,12 +41,12 @@ public class MovieDetailActivity extends AppCompatActivity {
         toolbarLayout.setTitle(mMovie.getTitle());
 
         backdrop = (ImageView) findViewById(R.id.backdrop);
-        release_dates = (TextView) findViewById(R.id.release_dates);
+        date = (TextView) findViewById(R.id.date);
         title = (TextView) findViewById(R.id.movie_title);
         description = (TextView) findViewById(R.id.movie_description);
         poster = (ImageView) findViewById(R.id.movie_poster);
 
-        release_dates.setText(mMovie.getRelease_dates());
+        date.setText(mMovie.getDate());
         title.setText(mMovie.getTitle());
         description.setText(mMovie.getDescription());
         Picasso.with(this)

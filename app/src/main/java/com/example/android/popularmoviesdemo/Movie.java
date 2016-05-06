@@ -7,7 +7,11 @@ import java.util.List;
 
 public class Movie implements Parcelable {
 
-    private String release_date;
+    @SerializedName("vote_average")
+    private String average;
+
+    @SerializedName("release_date")
+    private String date;
 
     private String title;
 
@@ -23,7 +27,8 @@ public class Movie implements Parcelable {
     public Movie() {}
 
     protected Movie(Parcel in) {
-        release_date = in.readString();
+        average = in.readString();
+        date = in.readString();
         title = in.readString();
         poster = in.readString();
         description = in.readString();
@@ -42,29 +47,33 @@ public class Movie implements Parcelable {
         }
     };
 
-    public String getRelease_date() {return release_date;}
-    public void  setRelease_date (String release_date){this.release_date = release_date;}
+    public String getAverage() {return average;}
+    public void setAverage (String average) {this.average = average;}
+
+    public String getDate() {return date;}
+    public void setDate(String date) {this.date = date;}
+
 
     public String getTitle() {
         return title;
     }
-
     public void setTitle(String title) {
         this.title = title;
     }
 
+
     public String getPoster() {
         return "http://image.tmdb.org/t/p/w500" + poster;
     }
-
     public void setPoster(String poster) {
         this.poster = poster;
     }
 
+
+
     public String getDescription() {
         return description;
     }
-
     public void setDescription(String description) {
         this.description = description;
     }
@@ -84,7 +93,8 @@ public class Movie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(release_date);
+        parcel.writeString(average);
+        parcel.writeString(date);
         parcel.writeString(title);
         parcel.writeString(poster);
         parcel.writeString(description);

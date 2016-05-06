@@ -20,7 +20,8 @@ public class MovieDetailActivity extends AppCompatActivity {
     Movie mMovie;
     ImageView backdrop;
     ImageView poster;
-    TextView release_date;
+    TextView average;
+    TextView date;
     TextView title;
     TextView description;
 
@@ -40,13 +41,16 @@ public class MovieDetailActivity extends AppCompatActivity {
         CollapsingToolbarLayout toolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         toolbarLayout.setTitle(mMovie.getTitle());
 
+        average = (TextView)findViewById(R.id.vote_average);
         backdrop = (ImageView) findViewById(R.id.backdrop);
-        release_date = (TextView) findViewById(R.id.release_date);
+        date = (TextView) findViewById(R.id.release_date);
         title = (TextView) findViewById(R.id.movie_title);
         description = (TextView) findViewById(R.id.movie_description);
         poster = (ImageView) findViewById(R.id.movie_poster);
 
-        release_date.setText(mMovie.getRelease_date());
+
+        average.setText(mMovie.getAverage());
+        date.setText(mMovie.getDate());
         title.setText(mMovie.getTitle());
         description.setText(mMovie.getDescription());
         Picasso.with(this)

@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -83,11 +84,14 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
+            startActivity(new Intent(this, SettingsActivity.class));
+
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
-    public static class MovieViewHolder extends RecyclerView.ViewHolder {
+        public static class MovieViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
 
         public MovieViewHolder(View itemView) {

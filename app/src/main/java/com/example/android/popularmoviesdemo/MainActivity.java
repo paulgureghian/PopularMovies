@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         mAdapter.setMovieList(movies);
     }
     private void getPopularMovies() {
+
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://api.themoviedb.org/3")
                 .setRequestInterceptor(new RequestInterceptor() {

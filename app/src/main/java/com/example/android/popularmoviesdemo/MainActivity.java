@@ -3,11 +3,13 @@ package com.example.android.popularmoviesdemo;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,6 +32,7 @@ import retrofit.client.Response;
 public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private MoviesAdapter mAdapter;
+    String sortType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,21 +41,29 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setLogo(R.mipmap.ic_launcher);
-
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         mAdapter = new MoviesAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
         List<Movie> movies = new ArrayList<>();
         getPopularMovies();
-
         for (int i = 0; i < 25; i++) {
             movies.add(new Movie());
         }
         mAdapter.setMovieList(movies);
+        sortType = PreferenceManager.getDefaultSharedPreferences(this).getString(getResources().getString(R.string.pref_sort_key),
+                getResources().getString(R.string.pref_sort_most_popular));
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String latestSortType = PreferenceManager.getDefaultSharedPreferences(this).getString(getResources().getString(R.string.pref_sort_key),
+                getResources().getString(R.string.pref_sort_most_popular));
+        if (!sortType.equals(latestSortType)) {
+            Log.i("MainActivity", "sort order changed");
+        }
     }
     private void getPopularMovies() {
-
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://api.themoviedb.org/3")
                 .setRequestInterceptor(new RequestInterceptor() {
@@ -89,10 +100,9 @@ public class MainActivity extends AppCompatActivity {
 
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
-        public static class MovieViewHolder extends RecyclerView.ViewHolder {
+    public static class MovieViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
 
         public MovieViewHolder(View itemView) {
@@ -137,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
         public int getItemCount() {
             return (mMovieList == null) ? 0 : mMovieList.size();
         }
+
         public void setMovieList(List<Movie> movieList) {
             this.mMovieList = new ArrayList<>();
             this.mMovieList.addAll(movieList);

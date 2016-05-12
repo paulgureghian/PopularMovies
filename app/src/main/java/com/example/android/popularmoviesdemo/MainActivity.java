@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
         List<Movie> movies = new ArrayList<>();
         getPopularMovies();
+        getTopRatedMovies();
         for (int i = 0; i < 25; i++) {
             movies.add(new Movie());
         }
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     private void getPopularMovies() {
-        RestAdapter restAdapter = new RestAdapter.Builder()
+        final RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://api.themoviedb.org/3")
                 .setRequestInterceptor(new RequestInterceptor() {
                     @Override
@@ -80,6 +81,30 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void success(Movie.MovieResult movieResult, Response response) {
                 mAdapter.setMovieList(movieResult.getResults());
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                error.printStackTrace();
+            }
+        });
+        }
+    private void getTopRatedMovies(){
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint("http://api.themoviedb.org/3")
+                .setRequestInterceptor(new RequestInterceptor() {
+                    @Override
+                    public void intercept(RequestFacade request) {
+                        request.addEncodedQueryParam("api_key", BuildConfig.TMDB_API_KEY);
+                    }
+                })
+                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .build();
+    TopRatedEndpoint service = restAdapter.create(TopRatedEndpoint.class);
+        service.getTopRatedMovies(new Callback<Movie.MovieResult>() {
+            @Override
+            public void success(Movie.MovieResult movieResult, Response response) {
+             mAdapter.setMovieList(movieResult.getResults());
             }
             @Override
             public void failure(RetrofitError error) {

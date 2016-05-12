@@ -7,7 +7,7 @@ import retrofit.http.GET;
 public interface TopRatedEndpoint {
 
     @GET("/movie/top_rated ")
-    void getPopularMovies(Callback<Movie.MovieResult> cb);
+    void getTopRatedMovies(Callback<Movie.MovieResult> cb);
 
 
 }

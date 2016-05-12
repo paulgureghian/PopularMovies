@@ -48,6 +48,15 @@ public class MainActivity extends AppCompatActivity {
         List<Movie> movies = new ArrayList<>();
         getPopularMovies();
         getTopRatedMovies();
+
+
+        if (sortType.equals("Most Popular"))
+            getPopularMovies();
+
+        else getTopRatedMovies();
+
+
+
         for (int i = 0; i < 25; i++) {
             movies.add(new Movie());
         }
@@ -111,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
                 error.printStackTrace();
             }
         });
+
     }
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);

@@ -14,7 +14,15 @@ public class Utility {
         return prefs.getString(context.getString(R.string.pref_sort_key),
                 "top_rated")
                 .equals("top_rated");
+
+
+
+            }
+
     }
-}
+
+
+
+
 
 

@@ -47,30 +47,37 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new MoviesAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
         List<Movie> movies = new ArrayList<>();
-        getPopularMovies();
-        getTopRatedMovies();
+
         for (int i = 0; i < 25; i++) {
             movies.add(new Movie());
         }
         mAdapter.setMovieList(movies);
         sortType = PreferenceManager.getDefaultSharedPreferences(this).getString(getResources().getString(R.string.pref_sort_key),
-                getResources().getString(R.string.pref_sort_most_popular & R.string.pref_sort_top_rated));
+                getResources().getString(R.string.pref_sort_most_popular));
 
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        String latestSortType = PreferenceManager.getDefaultSharedPreferences(this).getString(getResources().getString(R.string.pref_sort_key),
-                getResources().getString(R.string.pref_sort_most_popular & R.string.pref_sort_top_rated));
-        if (!sortType.equals(latestSortType)) {
-
-
-
-
+        if (sortType.equals(getResources().getString(R.string.pref_sort_most_popular))) {
+            getPopularMovies();
+        } else if (sortType.equals(getResources().getString(R.string.pref_sort_top_rated))) {
+            getTopRatedMovies();
         }
     }
 
+        @Override
+    public void onResume() {
+        super.onResume();
+        String latestSortType = PreferenceManager.getDefaultSharedPreferences(this).getString(getResources().getString(R.string.pref_sort_key),
+                getResources().getString(R.string.pref_sort_most_popular));
+        if (!sortType.equals(latestSortType)) {
+
+            Log.i("MainActivity", "sort order changed");
+            if (latestSortType.equals(getResources().getString(R.string.pref_sort_most_popular))){
+                getPopularMovies();
+            }else if (latestSortType.equals(getResources().getString(R.string.pref_sort_top_rated))){
+                getTopRatedMovies();
+            }
+            sortType = latestSortType;
+        }
+    }
     public void getPopularMovies() {
         final RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://api.themoviedb.org/3")

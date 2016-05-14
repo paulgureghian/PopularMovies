@@ -6,7 +6,6 @@ import android.preference.Preference;
 import android.preference.PreferenceManager;
 
 public class SettingsActivity extends AppCompatPreferenceActivity {
-
     private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
         @Override
         public boolean onPreferenceChange(Preference preference, Object value) {
@@ -37,7 +36,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.pref_general);
         bindPreferenceSummaryToValue(findPreference (getString (R.string.pref_sort_key)));
-
     }
 }
 

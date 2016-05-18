@@ -18,7 +18,6 @@ public class MovieDetailActivity extends AppCompatActivity {
     public static final String EXTRA_MOVIE = "movie";
 
     Movie mMovie;
-    ImageView backdrop;
     ImageView poster;
     TextView average;
     TextView date;
@@ -38,11 +37,8 @@ public class MovieDetailActivity extends AppCompatActivity {
         }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        CollapsingToolbarLayout toolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
-        toolbarLayout.setTitle(mMovie.getTitle());
 
         average = (TextView)findViewById(R.id.vote_average);
-        backdrop = (ImageView) findViewById(R.id.backdrop);
         date = (TextView) findViewById(R.id.release_date);
         title = (TextView) findViewById(R.id.movie_title);
         description = (TextView) findViewById(R.id.movie_description);
@@ -56,12 +52,6 @@ public class MovieDetailActivity extends AppCompatActivity {
         Picasso.with(this)
                 .load(mMovie.getPoster())
                 .into(poster);
-        Picasso.with(this)
-                .load(mMovie.getBackdrop())
-                .into(backdrop);
-
-
-    }
-
+          }
 }
 

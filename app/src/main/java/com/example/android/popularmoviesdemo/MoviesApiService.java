@@ -1,6 +1,5 @@
 package com.example.android.popularmoviesdemo;
 
-
 import retrofit.Callback;
 import retrofit.http.GET;
 

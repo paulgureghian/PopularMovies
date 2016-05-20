@@ -70,18 +70,16 @@ public class MovieDetailActivity extends AppCompatActivity {
                 .setRequestInterceptor(new RequestInterceptor() {
                     @Override
                     public void intercept(RequestFacade request) {
-                        request.addEncodedQueryParam("api_key", BuildConfig.T);
+                        request.addEncodedQueryParam("api_key", BuildConfig.TMDB_API_KEY);
                     }
+                })
+                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .build();
 
-
-                });
     }
 
+
 }
-
-
-
-
 
 
 

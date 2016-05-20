@@ -52,6 +52,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                 .load(mMovie.getPoster())
                 .into(poster);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -61,6 +62,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     public void launchTrailer() {
 
         final RestAdapter restAdapter = new RestAdapter.Builder()
@@ -68,14 +70,14 @@ public class MovieDetailActivity extends AppCompatActivity {
                 .setRequestInterceptor(new RequestInterceptor() {
                     @Override
                     public void intercept(RequestFacade request) {
-                        request.addEncodedQueryParam("api_key", BuildConfig.TMDB_API_KEY);
+                        request.addEncodedQueryParam("api_key", BuildConfig.T);
                     }
 
-                }
 
+                });
+    }
 
-
-
+}
 
 
 

@@ -44,6 +44,7 @@
 
             <Button
                 android:id="@+id/Trailer"
+                android:onClick="launchTrailer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="120dp"

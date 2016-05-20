@@ -71,7 +71,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                         request.addEncodedQueryParam("api_key", BuildConfig.TMDB_API_KEY);
                     }
 
-                }
+
 
 
 

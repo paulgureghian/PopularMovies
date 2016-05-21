@@ -6,7 +6,7 @@ import retrofit.http.GET;
 public interface MovieTrailerEndpoint {
     @GET("/movie/{id}/videos")
 
-void getlaunchTrailer (Callback<Movie.MovieResult>cb);
+void LaunchTrailer (Callback<Movie.MovieResult>cb);
 
 
 

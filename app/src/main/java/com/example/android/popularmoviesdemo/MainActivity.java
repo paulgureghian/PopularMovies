@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private MoviesAdapter mAdapter;
     String sortType;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,28 +46,24 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new MoviesAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
         List<Movie> movies = new ArrayList<>();
-
         for (int i = 0; i < 25; i++) {
             movies.add(new Movie());
         }
         mAdapter.setMovieList(movies);
         sortType = PreferenceManager.getDefaultSharedPreferences(this).getString(getResources().getString(R.string.pref_sort_key),
                 getResources().getString(R.string.pref_sort_most_popular));
-
         if (sortType.equals(getResources().getString(R.string.pref_sort_most_popular))) {
             getPopularMovies();
         } else if (sortType.equals(getResources().getString(R.string.pref_sort_top_rated))) {
             getTopRatedMovies();
         }
     }
-
         @Override
     public void onResume() {
         super.onResume();
         String latestSortType = PreferenceManager.getDefaultSharedPreferences(this).getString(getResources().getString(R.string.pref_sort_key),
                 getResources().getString(R.string.pref_sort_most_popular));
         if (!sortType.equals(latestSortType)) {
-
             Log.i("MainActivity", "sort order changed");
             if (latestSortType.equals(getResources().getString(R.string.pref_sort_most_popular))){
                 getPopularMovies();
@@ -89,21 +84,18 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
-
         MoviesApiService service = restAdapter.create(MoviesApiService.class);
         service.getPopularMovies(new Callback<Movie.MovieResult>() {
             @Override
             public void success(Movie.MovieResult movieResult, Response response) {
                 mAdapter.setMovieList(movieResult.getResults());
             }
-
             @Override
             public void failure(RetrofitError error) {
                 error.printStackTrace();
             }
         });
     }
-
     public void getTopRatedMovies() {
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://api.themoviedb.org/3")
@@ -121,52 +113,40 @@ public class MainActivity extends AppCompatActivity {
             public void success(Movie.MovieResult movieResult, Response response) {
                 mAdapter.setMovieList(movieResult.getResults());
             }
-
             @Override
             public void failure(RetrofitError error) {
                 error.printStackTrace();
             }
         });
-
     }
-
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         if (id == R.id.action_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
-
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
-
     public static class MovieViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
-
         public MovieViewHolder(View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.imageView);
         }
     }
-
     public static class MoviesAdapter extends RecyclerView.Adapter<MovieViewHolder> {
-
         private List<Movie> mMovieList;
         private LayoutInflater mInflater;
         private Context mContext;
-
         public MoviesAdapter(Context context) {
             this.mContext = context;
             this.mInflater = LayoutInflater.from(context);
         }
-
         @Override
         public MovieViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
             View view = mInflater.inflate(R.layout.row_movie, parent, false);
@@ -182,7 +162,6 @@ public class MainActivity extends AppCompatActivity {
             });
             return viewHolder;
         }
-
         @Override
         public void onBindViewHolder(MovieViewHolder holder, int position) {
             Movie movie = mMovieList.get(position);
@@ -191,12 +170,10 @@ public class MainActivity extends AppCompatActivity {
                     .placeholder(R.color.colorAccent)
                     .into(holder.imageView);
         }
-
         @Override
         public int getItemCount() {
             return (mMovieList == null) ? 0 : mMovieList.size();
         }
-
         public void setMovieList(List<Movie> movieList) {
             this.mMovieList = new ArrayList<>();
             this.mMovieList.addAll(movieList);

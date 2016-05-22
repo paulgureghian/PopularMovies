@@ -92,10 +92,8 @@ public class MovieDetailActivity extends AppCompatActivity {
         });
     }
 
-        String url = <<TRAILER URL HERE>>;
-        Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setData (Uri.parse(url));
-        startActivity(i);
+}
+
 
 
 

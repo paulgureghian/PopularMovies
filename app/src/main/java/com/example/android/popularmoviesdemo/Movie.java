@@ -7,6 +7,8 @@ import java.util.List;
 
 public class Movie implements Parcelable {
 
+    private String id;
+
     @SerializedName("vote_average")
     private String average;
 
@@ -27,6 +29,7 @@ public class Movie implements Parcelable {
     public Movie() {}
 
     protected Movie(Parcel in) {
+        id = in.readString();
         average = in.readString();
         date = in.readString();
         title = in.readString();
@@ -53,6 +56,8 @@ public class Movie implements Parcelable {
     public String getDate() {return date;}
     public void setDate(String date) {this.date = date;}
 
+    public String getId(){ return id;}
+    public void setId (String id ) {this.id = id;}
 
     public String getTitle() {
         return title;
@@ -61,15 +66,12 @@ public class Movie implements Parcelable {
         this.title = title;
     }
 
-
     public String getPoster() {
         return "http://image.tmdb.org/t/p/w500" + poster;
     }
     public void setPoster(String poster) {
         this.poster = poster;
     }
-
-
 
     public String getDescription() {
         return description;
@@ -99,7 +101,7 @@ public class Movie implements Parcelable {
         parcel.writeString(poster);
         parcel.writeString(description);
         parcel.writeString(backdrop);
-
+        parcel.writeString(id);
     }
 
     public static class MovieResult {

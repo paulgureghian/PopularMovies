@@ -72,7 +72,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                     @Override
                     public void intercept(RequestFacade request) {
                         request.addEncodedQueryParam("api_key", BuildConfig.TMDB_API_KEY);
-                        request.addPathParam("id");
+
                     }
                 })
                 .setLogLevel(RestAdapter.LogLevel.FULL)

@@ -78,7 +78,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
         MovieTrailerEndpoint service = restAdapter.create(MovieTrailerEndpoint.class);
-        service.LaunchTrailer(new Callback<Movie.MovieResult>() {
+        service.LaunchTrailer("id", new Callback<Movie.MovieResult>() {
             @Override
             public void success(Movie.MovieResult movieResult, Response response) {
             }

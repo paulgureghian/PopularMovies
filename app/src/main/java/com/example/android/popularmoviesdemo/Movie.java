@@ -1,5 +1,6 @@
 package com.example.android.popularmoviesdemo;
 
+import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
@@ -26,7 +27,8 @@ public class Movie implements Parcelable {
     @SerializedName("backdrop_path")
     private String backdrop;
 
-    public Movie() {}
+    public Movie() {
+    }
 
     protected Movie(Parcel in) {
         id = in.readString();
@@ -50,18 +52,34 @@ public class Movie implements Parcelable {
         }
     };
 
-    public String getAverage() {return average;}
-    public void setAverage (String average) {this.average = average;}
+    public String getAverage() {
+        return average;
+    }
 
-    public String getDate() {return date;}
-    public void setDate(String date) {this.date = date;}
+    public void setAverage(String average) {
+        this.average = average;
+    }
 
-    public String getId(){ return id;}
-    public void setId (String id ) {this.id = id;}
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
     }
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -69,6 +87,7 @@ public class Movie implements Parcelable {
     public String getPoster() {
         return "http://image.tmdb.org/t/p/w500" + poster;
     }
+
     public void setPoster(String poster) {
         this.poster = poster;
     }
@@ -76,6 +95,7 @@ public class Movie implements Parcelable {
     public String getDescription() {
         return description;
     }
+
     public void setDescription(String description) {
         this.description = description;
     }
@@ -95,13 +115,13 @@ public class Movie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(id);
         parcel.writeString(average);
         parcel.writeString(date);
         parcel.writeString(title);
         parcel.writeString(poster);
         parcel.writeString(description);
         parcel.writeString(backdrop);
-        parcel.writeString(id);
     }
 
     public static class MovieResult {
@@ -112,7 +132,9 @@ public class Movie implements Parcelable {
         }
     }
 
-
+    Intent intent = new Intent(mContext, MovieDetailActivity.class);
+    intent.putExtra(MovieDetailActivity.EXTRA_MOVIE,mMovieList.get(position))
+            mContext.startActivity(intent);
 }
 
 

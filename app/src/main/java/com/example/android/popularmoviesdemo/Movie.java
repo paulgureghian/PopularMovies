@@ -132,9 +132,6 @@ public class Movie implements Parcelable {
         }
     }
 
-    Intent intent = new Intent(mContext, MovieDetailActivity.class);
-    intent.putExtra(MovieDetailActivity.EXTRA_MOVIE,mMovieList.get(position))
-            mContext.startActivity(intent);
 }
 
 

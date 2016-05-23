@@ -69,7 +69,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     public void LaunchTrailer(View view) {
         final RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint("http://api.themoviemdb.org/3")
+                .setEndpoint("http://api.themoviedb.org/3")
                 .setRequestInterceptor(new RequestInterceptor() {
                     @Override
                     public void intercept(RequestFacade request) {

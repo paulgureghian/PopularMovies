@@ -31,7 +31,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     TextView date;
     TextView title;
     TextView description;
-    TextView id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +49,6 @@ public class MovieDetailActivity extends AppCompatActivity {
         description = (TextView) findViewById(R.id.movie_description);
         poster = (ImageView) findViewById(R.id.movie_poster);
         average.setText(mMovie.getAverage());
-        id.setText(mMovie.getId());
         date.setText(mMovie.getDate());
         title.setText(mMovie.getTitle());
         description.setText(mMovie.getDescription());

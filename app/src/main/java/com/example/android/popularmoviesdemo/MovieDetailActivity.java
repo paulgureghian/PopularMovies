@@ -16,6 +16,13 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 import retrofit.Callback;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
@@ -83,16 +90,42 @@ public class MovieDetailActivity extends AppCompatActivity {
         service.LaunchTrailer(mMovie.getId(), new Callback<Movie.MovieResult>() {
             @Override
             public void success(Movie.MovieResult movieResult, Response response) {
+                BufferedReader reader = null;
+                StringBuilder sb = new StringBuilder();
+                try {
+                    reader = new BufferedReader(new InputStreamReader(response.getBody().in()));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        sb.append(line);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                String result = sb.toString();
+                try {
+                    JSONObject root = new JSONObject(result);
+                    String youTubeKey = root.getJSONArray("results").getJSONObject(0).getString("key");
+                    Uri.Builder builder = new Uri.Builder();
+                    String url = builder
+                            .path("https://www.youtube.com")
+                            .appendPath("watch")
+                            .appendQueryParameter("v", youTubeKey)
+                            .build().toString();
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
+
             @Override
             public void failure(RetrofitError error) {
                 error.printStackTrace();
             }
-
-
         });
     }
-
 }
 
 

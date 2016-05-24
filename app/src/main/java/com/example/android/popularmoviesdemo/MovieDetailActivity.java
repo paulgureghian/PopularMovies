@@ -112,7 +112,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                             .appendQueryParameter("v", youTubeKey)
                             .build().toString();
                     Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(url));
+                    i.setData(Uri.parse("https://www.youtube.com/watch?v=" + youTubeKey));
                     startActivity(i);
 
                 } catch (JSONException e) {

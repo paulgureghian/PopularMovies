@@ -84,11 +84,12 @@ public class MovieDetailActivity extends AppCompatActivity {
             @Override
             public void success(Movie.MovieResult movieResult, Response response) {
             }
-
             @Override
             public void failure(RetrofitError error) {
                 error.printStackTrace();
             }
+
+
         });
     }
 

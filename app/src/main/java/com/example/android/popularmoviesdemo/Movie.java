@@ -8,6 +8,7 @@ import java.util.List;
 
 public class Movie implements Parcelable {
 
+    private String key;
     private String id;
 
     @SerializedName("vote_average")
@@ -31,6 +32,7 @@ public class Movie implements Parcelable {
     }
 
     protected Movie(Parcel in) {
+        key = in.readString();
         id = in.readString();
         average = in.readString();
         date = in.readString();
@@ -51,6 +53,9 @@ public class Movie implements Parcelable {
             return new Movie[size];
         }
     };
+
+    public String getKey () { return  key; }
+    public void setKey (String key) { this.key = key; }
 
     public String getAverage() {
         return average;
@@ -115,6 +120,7 @@ public class Movie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(key);
         parcel.writeString(id);
         parcel.writeString(average);
         parcel.writeString(date);

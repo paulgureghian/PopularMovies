@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -63,7 +64,6 @@ public class MovieDetailActivity extends AppCompatActivity {
                 .load(mMovie.getPoster())
                 .into(poster);
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -73,7 +73,6 @@ public class MovieDetailActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
     public void LaunchTrailer(View view) {
         final RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://api.themoviedb.org/3")
@@ -81,7 +80,6 @@ public class MovieDetailActivity extends AppCompatActivity {
                     @Override
                     public void intercept(RequestFacade request) {
                         request.addEncodedQueryParam("api_key", BuildConfig.TMDB_API_KEY);
-
                     }
                 })
                 .setLogLevel(RestAdapter.LogLevel.FULL)
@@ -119,14 +117,60 @@ public class MovieDetailActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-
             @Override
             public void failure(RetrofitError error) {
                 error.printStackTrace();
             }
         });
     }
+    public void LaunchReview(View view) {
+        final RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint("http://api.themoviedb.org/3")
+                .setRequestInterceptor(new RequestInterceptor() {
+                    @Override
+                    public void intercept(RequestFacade request) {
+                        request.addEncodedQueryParam("api_key", BuildConfig.TMDB_API_KEY);
+                    }
+                })
+                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .build();
+        MovieReviewEndpoint service = restAdapter.create(MovieReviewEndpoint.class);
+        service.LaunchReview(mMovie.getId(), new Callback<Movie.MovieResult>() {
+            @Override
+            public void success(Movie.MovieResult movieResult, Response response) {
+                BufferedReader reader = null;
+                StringBuilder sb = new StringBuilder();
+                try {
+                    reader = new BufferedReader(new InputStreamReader(response.getBody().in()));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        sb.append(line);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                String result = sb.toString();
+                try {
+                    JSONObject root = new JSONObject(result);
+                    JSONArray array = root.getJSONArray("results");
+
+                    for (int i = 0; i < array.length(); i++) {
+                        String author = array.getJSONObject(i)
+                                .getString("author");
+                        String content = array.getJSONObject(i)
+                                .getString("content");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void failure(RetrofitError error) {
+            }
+        });
+    }
 }
+
 
 
 

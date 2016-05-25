@@ -8,6 +8,8 @@ import java.util.List;
 
 public class Movie implements Parcelable {
 
+    private String author;
+    private String content;
     private String key;
     private String id;
 
@@ -32,6 +34,8 @@ public class Movie implements Parcelable {
     }
 
     protected Movie(Parcel in) {
+        author = in.readString();
+        content = in.readString();
         key = in.readString();
         id = in.readString();
         average = in.readString();
@@ -53,6 +57,12 @@ public class Movie implements Parcelable {
             return new Movie[size];
         }
     };
+
+    public String getAuthor () { return author;}
+    public void  setAuthor (String author){ this.author = author; }
+
+    public String getContent() { return content;}
+    public void  setContent (String content){ this.content = content;}
 
     public String getKey () { return  key; }
     public void setKey (String key) { this.key = key; }
@@ -120,6 +130,8 @@ public class Movie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(author);
+        parcel.writeString(content);
         parcel.writeString(key);
         parcel.writeString(id);
         parcel.writeString(average);

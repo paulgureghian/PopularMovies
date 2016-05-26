@@ -164,6 +164,9 @@ public class MovieDetailActivity extends AppCompatActivity {
                         Review review  = new Review(author,content);
                         mMovie.putReview(review);
 
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                        startActivity(intent);
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

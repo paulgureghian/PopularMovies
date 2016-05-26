@@ -3,7 +3,10 @@ package com.example.android.popularmoviesdemo;
 import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Movie implements Parcelable {
@@ -58,14 +61,29 @@ public class Movie implements Parcelable {
         }
     };
 
-    public String getAuthor () { return author;}
-    public void  setAuthor (String author){ this.author = author; }
+    public String getAuthor() {
+        return author;
+    }
 
-    public String getContent() { return content;}
-    public void  setContent (String content){ this.content = content;}
+    public void setAuthor(String author) {
+        this.author = author;
+    }
 
-    public String getKey () { return  key; }
-    public void setKey (String key) { this.key = key; }
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
 
     public String getAverage() {
         return average;
@@ -150,6 +168,15 @@ public class Movie implements Parcelable {
         }
     }
 
+    private ArrayList<Review> reviews = new ArrayList<>();
+
+    public void putReview(Review review) {
+        reviews.add(review);
+    }
+
+    public ArrayList<Review> getReviews() {
+        return reviews;
+    }
 }
 
 

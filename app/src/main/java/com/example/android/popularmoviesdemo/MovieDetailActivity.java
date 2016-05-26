@@ -69,6 +69,8 @@ public class MovieDetailActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.Trailer) {
             LaunchTrailer(null);
+        }else if (id == R.id.Review){
+            LaunchReview(null);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -159,6 +161,9 @@ public class MovieDetailActivity extends AppCompatActivity {
                                 .getString("author");
                         String content = array.getJSONObject(i)
                                 .getString("content");
+                        Review review  = new Review(author,content);
+                        mMovie.putReview(review);
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

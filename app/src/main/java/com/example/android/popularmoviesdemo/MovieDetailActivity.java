@@ -64,17 +64,19 @@ public class MovieDetailActivity extends AppCompatActivity {
                 .load(mMovie.getPoster())
                 .into(poster);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.Trailer) {
             LaunchTrailer(null);
-        }else if (id == R.id.Review){
+        } else if (id == R.id.Review) {
             LaunchReview(null);
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
     public void LaunchTrailer(View view) {
         final RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://api.themoviedb.org/3")
@@ -119,12 +121,14 @@ public class MovieDetailActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+
             @Override
             public void failure(RetrofitError error) {
                 error.printStackTrace();
             }
         });
     }
+
     public void LaunchReview(View view) {
         final RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://api.themoviedb.org/3")
@@ -161,20 +165,21 @@ public class MovieDetailActivity extends AppCompatActivity {
                                 .getString("author");
                         String content = array.getJSONObject(i)
                                 .getString("content");
-                        Review review  = new Review(author,content);
+                        Review review = new Review(author, content);
                         mMovie.putReview(review);
 
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                        Intent intent = new Intent(getApplicationContext(), ReviewActivity.class);
+                        intent.putParcelableArrayListExtra("reviews", mMovie.getReviews());
                         startActivity(intent);
-
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            }
+           }
             @Override
             public void failure(RetrofitError error) {
             }
+
         });
     }
 }

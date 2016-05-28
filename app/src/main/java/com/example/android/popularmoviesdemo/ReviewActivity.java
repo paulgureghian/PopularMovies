@@ -17,7 +17,7 @@ public class ReviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+    //    setSupportActionBar(toolbar);
 
         ArrayList<Review> reviews = getIntent().getParcelableArrayListExtra("reviews");
 

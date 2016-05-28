@@ -50,7 +50,7 @@ public class MovieDetailActivity extends AppCompatActivity {
             throw new IllegalArgumentException("Detail activity must receive a movie parcelable");
         }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //  setSupportActionBar(toolbar);
         average = (TextView) findViewById(R.id.vote_average);
         date = (TextView) findViewById(R.id.release_date);
         title = (TextView) findViewById(R.id.movie_title);
@@ -64,7 +64,6 @@ public class MovieDetailActivity extends AppCompatActivity {
                 .load(mMovie.getPoster())
                 .into(poster);
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -76,7 +75,6 @@ public class MovieDetailActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
     public void LaunchTrailer(View view) {
         final RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://api.themoviedb.org/3")
@@ -121,14 +119,12 @@ public class MovieDetailActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-
             @Override
             public void failure(RetrofitError error) {
                 error.printStackTrace();
             }
         });
     }
-
     public void LaunchReview(View view) {
         final RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://api.themoviedb.org/3")
@@ -160,6 +156,10 @@ public class MovieDetailActivity extends AppCompatActivity {
                     JSONObject root = new JSONObject(result);
                     JSONArray array = root.getJSONArray("results");
 
+                    Intent intent = new Intent(getApplicationContext(), ReviewActivity.class);
+                    intent.putParcelableArrayListExtra("reviews", mMovie.getReviews());
+                    startActivity(intent);
+
                     for (int i = 0; i < array.length(); i++) {
                         String author = array.getJSONObject(i)
                                 .getString("author");
@@ -167,19 +167,14 @@ public class MovieDetailActivity extends AppCompatActivity {
                                 .getString("content");
                         Review review = new Review(author, content);
                         mMovie.putReview(review);
-
-                        Intent intent = new Intent(getApplicationContext(), ReviewActivity.class);
-                        intent.putParcelableArrayListExtra("reviews", mMovie.getReviews());
-                        startActivity(intent);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-           }
+            }
             @Override
             public void failure(RetrofitError error) {
             }
-
         });
     }
 }

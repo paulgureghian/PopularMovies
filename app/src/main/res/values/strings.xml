@@ -3,9 +3,9 @@
     <string name="pref_sort_top_rated" translatable="false">Top Rated</string>
     <string name="pref_sort_most_popular" translatable="false">Most Popular</string>
     <string name="pref_sort_key" translatable="false">sort</string>
-    <string name="app_name">PopularMoviesDemo</string>
+    <string name="app_name">PopularMovies</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_movie_detail">MovieDetailActivity</string>
+    <string name="title_activity_movie_detail">MovieDetails</string>
     <string name="Vote_Average">VoteAverage</string>
     <string name="action_filter">Filter</string>
     <string name="most_popular">Most Popular</string>
@@ -18,7 +18,7 @@
 
         </string>
     <string name="title_activity_settings">Settings</string>
-    <string name="title_activity_review">ReviewActivity</string>
+    <string name="title_activity_review">Reviews</string>
 
 
 </resources>

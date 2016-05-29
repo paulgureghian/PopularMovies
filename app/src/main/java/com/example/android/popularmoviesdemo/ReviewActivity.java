@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ import java.util.List;
 
 public class ReviewActivity extends AppCompatActivity {
     private ListView mListView;
-    public Adapter mAdapter;
+    private ReviewsAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +30,8 @@ public class ReviewActivity extends AppCompatActivity {
     //    setSupportActionBar(toolbar);
 
         mListView = (ListView) findViewById(R.id.listview_review);
-        mAdapter = new Adapter(this);
+        mAdapter = new ReviewsAdapter(this);
+
         mListView.setAdapter(mAdapter);
         mAdapter.setReviewList(reviews);
         ArrayList<Review> reviews = getIntent().getParcelableArrayListExtra("reviews");

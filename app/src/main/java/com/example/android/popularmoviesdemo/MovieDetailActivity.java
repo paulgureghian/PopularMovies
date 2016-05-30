@@ -156,10 +156,6 @@ public class MovieDetailActivity extends AppCompatActivity {
                     JSONObject root = new JSONObject(result);
                     JSONArray array = root.getJSONArray("results");
 
-                    Intent intent = new Intent(getApplicationContext(), ReviewActivity.class);
-                    intent.putParcelableArrayListExtra("reviews", mMovie.getReviews());
-                    startActivity(intent);
-
                     for (int i = 0; i < array.length(); i++) {
                         String author = array.getJSONObject(i)
                                 .getString("author");
@@ -168,6 +164,10 @@ public class MovieDetailActivity extends AppCompatActivity {
                         Review review = new Review(author, content);
                         mMovie.putReview(review);
                     }
+                    Intent intent = new Intent(getApplicationContext(), ReviewActivity.class);
+                    intent.putParcelableArrayListExtra("reviews", mMovie.getReviews());
+                    startActivity(intent);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

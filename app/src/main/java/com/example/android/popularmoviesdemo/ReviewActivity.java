@@ -20,7 +20,7 @@ public class ReviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //    setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
         List<Review> reviews = getIntent().getParcelableArrayListExtra("reviews");
 
         adapter = new ArrayAdapter<Review> (getApplicationContext(), R.layout.review_container, R.id.review_content_textview, reviews);

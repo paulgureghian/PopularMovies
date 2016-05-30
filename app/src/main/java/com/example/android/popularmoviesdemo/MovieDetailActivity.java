@@ -50,7 +50,7 @@ public class MovieDetailActivity extends AppCompatActivity {
             throw new IllegalArgumentException("Detail activity must receive a movie parcelable");
         }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //  setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
         average = (TextView) findViewById(R.id.vote_average);
         date = (TextView) findViewById(R.id.release_date);
         title = (TextView) findViewById(R.id.movie_title);

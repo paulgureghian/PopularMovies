@@ -2,9 +2,7 @@ package com.example.android.popularmoviesdemo;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-
 import com.google.gson.Gson;
-
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;

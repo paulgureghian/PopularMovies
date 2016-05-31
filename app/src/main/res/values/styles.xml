@@ -7,8 +7,9 @@
         <item name="colorPrimaryDark">#757575</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:colorButtonNormal">#00BCD4</item>
-        <item name="android:windowActionBar">false</item>
-        <item name="android:windowNoTitle">false</item>
+
+
+
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

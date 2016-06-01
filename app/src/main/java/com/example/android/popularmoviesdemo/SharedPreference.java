@@ -17,7 +17,7 @@ public class SharedPreference {
         super();
     }
 
-    public void saveFavorites(Context context, List<Product> favorites) {
+    public void saveFavorites(Context context, List<Movie> favorites) {
         SharedPreferences settings;
         SharedPreferences.Editor editor;
 
@@ -25,32 +25,31 @@ public class SharedPreference {
                 Context.MODE_PRIVATE);
         editor = settings.edit();
 
-        Gson gson = new Gson();
-        String jsonFavorites = gson.toJson(favorites);
 
-        editor.putString(FAVORITES, jsonFavorites);
+
+        editor.putString(Movie.getId(), new Gson().toJson(movie));
         editor.commit();
     }
 
-    public void addFavorite(Context context, Product product) {
-        List<Product> favorites = getFavorites(context);
+    public void addFavorite(Context context, Movie movie) {
+        List<Movie> favorites = getFavorites(context);
         if (favorites == null)
-            favorites = new ArrayList<Product>();
-        favorites.add(product);
+            favorites = new ArrayList<Movie>();
+        favorites.add(movie);
         saveFavorites(context, favorites);
     }
 
-    public void removeFavorite(Context context, Product product) {
-        ArrayList<Product> favorites = getFavorites(context);
+    public void removeFavorite(Context context, Movie movie) {
+        ArrayList<Movie> favorites = getFavorites(context);
         if (favorites != null) {
-            favorites.remove(product);
+            favorites.remove(movie);
             saveFavorites(context, favorites);
         }
     }
 
-    public ArrayList<Product> getFavorites(Context context) {
+    public ArrayList<Movie> getFavorites(Context context) {
         SharedPreferences settings;
-        List<Product> favorites;
+        List<Movie> favorites;
 
         settings = context.getSharedPreferences(PREFS_NAME,
                 Context.MODE_PRIVATE);
@@ -58,14 +57,14 @@ public class SharedPreference {
         if (settings.contains(FAVORITES)) {
             String jsonFavorites = settings.getString(FAVORITES, null);
             Gson gson = new Gson();
-            Product[] favoriteItems = gson.fromJson(jsonFavorites,
-                    Product[].class);
+            Movie[] favoriteItems = gson.fromJson(jsonFavorites,
+                    Movie[].class);
 
             favorites = Arrays.asList(favoriteItems);
-            favorites = new ArrayList<Product>(favorites);
+            favorites = new ArrayList<Movie>(favorites);
         } else
             return null;
-        return (ArrayList<Product>) favorites;
+        return (ArrayList<Movie>) favorites;
     }
 }
 

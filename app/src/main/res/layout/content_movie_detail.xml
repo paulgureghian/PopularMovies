@@ -47,8 +47,8 @@
                 android:onClick="LaunchTrailer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="70dp"
-                android:paddingRight="70dp"
+                android:paddingLeft="120dp"
+                android:paddingRight="120dp"
                 android:text="Trailer"/>
 
             <Button
@@ -56,16 +56,15 @@
                 android:onClick="LaunchReview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="70dp"
-                android:paddingRight="70dp"
+                android:paddingLeft="120dp"
+                android:paddingRight="134dp"
                 android:text="Review"
                 android:layout_toEndOf="@+id/Trailer"/>
 
-            <Button
-                android:id="@+id/Favorite"
-                android:paddingLeft="70dp"
-                android:paddingRight="80dp"
-                android:layout_toRightOf="@id/Review"
+            <CheckBox
+                android:id="@+id/favoriteCheckBox"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/Trailer"
                 android:text="Favorite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

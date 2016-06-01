@@ -18,19 +18,17 @@ public class SharedPreference {
     }
 
     public void saveFavorites(Context context, List<Movie> favorites) {
+
+        Movie movie = new Movie();
         SharedPreferences settings;
         SharedPreferences.Editor editor;
 
         settings = context.getSharedPreferences(PREFS_NAME,
                 Context.MODE_PRIVATE);
         editor = settings.edit();
-
-
-
-        editor.putString(Movie.getId(), new Gson().toJson(movie));
+        editor.putString(movie.getId(), new Gson().toJson(movie));
         editor.commit();
     }
-
     public void addFavorite(Context context, Movie movie) {
         List<Movie> favorites = getFavorites(context);
         if (favorites == null)
@@ -38,7 +36,6 @@ public class SharedPreference {
         favorites.add(movie);
         saveFavorites(context, favorites);
     }
-
     public void removeFavorite(Context context, Movie movie) {
         ArrayList<Movie> favorites = getFavorites(context);
         if (favorites != null) {
@@ -46,11 +43,9 @@ public class SharedPreference {
             saveFavorites(context, favorites);
         }
     }
-
     public ArrayList<Movie> getFavorites(Context context) {
         SharedPreferences settings;
         List<Movie> favorites;
-
         settings = context.getSharedPreferences(PREFS_NAME,
                 Context.MODE_PRIVATE);
 

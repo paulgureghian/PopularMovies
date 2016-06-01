@@ -1,5 +1,6 @@
 package com.example.android.popularmoviesdemo;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -39,6 +41,8 @@ public class MovieDetailActivity extends AppCompatActivity {
     TextView date;
     TextView title;
     TextView description;
+    CheckBox favoriteCheckBox;
+    SharedPreference sharedPreference = new SharedPreference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +64,15 @@ public class MovieDetailActivity extends AppCompatActivity {
         date.setText(mMovie.getDate());
         title.setText(mMovie.getTitle());
         description.setText(mMovie.getDescription());
+        favoriteCheckBox = (CheckBox) findViewById(R.id.favoriteCheckBox);
+
+        final Context context = this;
+        favoriteCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         Picasso.with(this)
                 .load(mMovie.getPoster())
                 .into(poster);

@@ -70,6 +70,13 @@ public class MovieDetailActivity extends AppCompatActivity {
         favoriteCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                boolean checked = ((CheckBox) v).isChecked();
+                if (checked) {
+
+
+
+                }
+
 
             }
         });

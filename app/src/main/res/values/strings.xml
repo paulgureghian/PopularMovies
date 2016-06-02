@@ -1,5 +1,5 @@
 <resources>
-
+    <string name="pref_sort_favorites" translatable="false">Favorites</string>
     <string name="pref_sort_top_rated" translatable="false">Top Rated</string>
     <string name="pref_sort_most_popular" translatable="false">Most Popular</string>
     <string name="pref_sort_key" translatable="false">sort</string>
@@ -10,9 +10,11 @@
     <string name="action_filter">Filter</string>
     <string name="most_popular">Most Popular</string>
     <string name="top_rated">Top Rated</string>
+    <string name="favorites">Favorites</string>
     <string name="Release_Date">ReleaseDate</string>
     <string name="pref_sort_label_top_rated">Top Rated</string>
     <string name="pref_sort_label_most_popular">Most Popular</string>
+    <string name="pref_sort_label_favorites">Favorites</string>
     <string name="pref_sort_label">Sort By</string>
     <string name="large_text">
 

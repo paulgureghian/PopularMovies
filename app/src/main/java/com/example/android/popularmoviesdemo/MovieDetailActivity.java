@@ -2,6 +2,7 @@ package com.example.android.popularmoviesdemo;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -42,7 +43,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     TextView title;
     TextView description;
     CheckBox favoriteCheckBox;
-    SharedPreference sharedPreference = new SharedPreference();
+    SharedPreferenceUtils sharedPreferenceUtils = new SharedPreferenceUtils();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,19 +67,19 @@ public class MovieDetailActivity extends AppCompatActivity {
         description.setText(mMovie.getDescription());
         favoriteCheckBox = (CheckBox) findViewById(R.id.favoriteCheckBox);
 
+        favoriteCheckBox.setChecked(SharedPreferenceUtils.isFavorite(this, mMovie.getId()));
+
         final Context context = this;
         favoriteCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean checked = ((CheckBox) v).isChecked();
-                if (checked) {
-
-
-
+                if (SharedPreferenceUtils.isFavorite(context, mMovie.getId())) {
+                    SharedPreferenceUtils.removeFavorite(context, mMovie);
+                } else {
+                    SharedPreferenceUtils.addFavorite(context, mMovie);
                 }
-
-
             }
+
         });
         Picasso.with(this)
                 .load(mMovie.getPoster())

@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import retrofit.Callback;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private MoviesAdapter mAdapter;
     String sortType;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,22 +58,29 @@ public class MainActivity extends AppCompatActivity {
             getPopularMovies();
         } else if (sortType.equals(getResources().getString(R.string.pref_sort_top_rated))) {
             getTopRatedMovies();
+        } else if (sortType.equals("Favorites")) {
+            loadFavoriteMovies();
         }
     }
-        @Override
+    @Override
     public void onResume() {
         super.onResume();
         String latestSortType = PreferenceManager.getDefaultSharedPreferences(this).getString(getResources().getString(R.string.pref_sort_key),
                 getResources().getString(R.string.pref_sort_most_popular));
         if (!sortType.equals(latestSortType)) {
             Log.i("MainActivity", "sort order changed");
-            if (latestSortType.equals(getResources().getString(R.string.pref_sort_most_popular))){
+            if (latestSortType.equals(getResources().getString(R.string.pref_sort_most_popular))) {
                 getPopularMovies();
-            }else if (latestSortType.equals(getResources().getString(R.string.pref_sort_top_rated))){
+            } else if (latestSortType.equals(getResources().getString(R.string.pref_sort_top_rated))) {
                 getTopRatedMovies();
+            } else if (latestSortType.equals("Favorites")) {
+                loadFavoriteMovies();
             }
             sortType = latestSortType;
         }
+    }
+    public void loadFavoriteMovies() {
+        mAdapter.setMovieList(Arrays.asList(SharedPreferenceUtils.getFavorites(this)));
     }
     public void getPopularMovies() {
         final RestAdapter restAdapter = new RestAdapter.Builder()
@@ -134,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public static class MovieViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
+
         public MovieViewHolder(View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.imageView);
@@ -143,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
         private List<Movie> mMovieList;
         private LayoutInflater mInflater;
         private Context mContext;
+
         public MoviesAdapter(Context context) {
             this.mContext = context;
             this.mInflater = LayoutInflater.from(context);
@@ -174,6 +185,7 @@ public class MainActivity extends AppCompatActivity {
         public int getItemCount() {
             return (mMovieList == null) ? 0 : mMovieList.size();
         }
+
         public void setMovieList(List<Movie> movieList) {
             this.mMovieList = new ArrayList<>();
             this.mMovieList.addAll(movieList);

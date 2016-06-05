@@ -13,7 +13,7 @@ public class DetailFragment extends Fragment {
     //private static final String
     //private static final String
 
-    //private String
+   // private String
     //private String
 
     private OnFragmentInteractionListener mListener;

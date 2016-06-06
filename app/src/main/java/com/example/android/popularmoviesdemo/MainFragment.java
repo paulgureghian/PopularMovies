@@ -2,39 +2,173 @@ package com.example.android.popularmoviesdemo;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RequestInterceptor;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class MainFragment extends Fragment {
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
+    private RecyclerView mRecyclerView;
+    private MoviesAdapter mAdapter;
 
     public MainFragment() {
     }
+
     public static MainFragment newInstance(String param1, String param2) {
         MainFragment fragment = new MainFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+
         fragment.setArguments(args);
         return fragment;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        mAdapter = new MoviesAdapter(this);
+        mRecyclerView.setAdapter(mAdapter);
+        List<Movie> movies = new ArrayList<>();
+
+        for (int i = 0; i < 25; i++) {
+            movies.add(new Movie());
+        }
+        mAdapter.setMovieList(movies);
+    }
+
+    public void loadFavoriteMovies() {
+        mAdapter.setMovieList(Arrays.asList(SharedPreferenceUtils.getFavorites(this)));
+    }
+
+    public void getPopularMovies() {
+        final RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint("http://api.themoviedb.org/3")
+                .setRequestInterceptor(new RequestInterceptor() {
+                    @Override
+                    public void intercept(RequestFacade request) {
+                        request.addEncodedQueryParam("api_key", BuildConfig.TMDB_API_KEY);
+                    }
+                })
+                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .build();
+        MoviesApiService service = restAdapter.create(MoviesApiService.class);
+        service.getPopularMovies(new Callback<Movie.MovieResult>() {
+            @Override
+            public void success(Movie.MovieResult movieResult, Response response) {
+                mAdapter.setMovieList(movieResult.getResults());
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                error.printStackTrace();
+            }
+        });
+    }
+
+    public void getTopRatedMovies() {
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint("http://api.themoviedb.org/3")
+                .setRequestInterceptor(new RequestInterceptor() {
+                    @Override
+                    public void intercept(RequestFacade request) {
+                        request.addEncodedQueryParam("api_key", BuildConfig.TMDB_API_KEY);
+                    }
+                })
+                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .build();
+        TopRatedEndpoint service = restAdapter.create(TopRatedEndpoint.class);
+        service.getTopRatedMovies(new Callback<Movie.MovieResult>() {
+            @Override
+            public void success(Movie.MovieResult movieResult, Response response) {
+                mAdapter.setMovieList(movieResult.getResults());
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                error.printStackTrace();
+            }
+        });
+    }
+
+    public static class MovieViewHolder extends RecyclerView.ViewHolder {
+        public ImageView imageView;
+
+        public MovieViewHolder(View itemView) {
+            super(itemView);
+            imageView = (ImageView) itemView.findViewById(R.id.imageView);
         }
     }
+
+    public static class MoviesAdapter extends RecyclerView.Adapter<MovieViewHolder> {
+        private List<Movie> mMovieList;
+        private LayoutInflater mInflater;
+        private Context mContext;
+
+        public MoviesAdapter(Context context) {
+            this.mContext = context;
+            this.mInflater = LayoutInflater.from(context);
+        }
+
+        @Override
+        public MovieViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
+            View view = mInflater.inflate(R.layout.row_movie, parent, false);
+            final MovieViewHolder viewHolder = new MovieViewHolder(view);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = viewHolder.getAdapterPosition();
+                    Intent intent = new Intent(mContext, MovieDetailActivity.class);
+                    intent.putExtra(MovieDetailActivity.EXTRA_MOVIE, mMovieList.get(position));
+                    mContext.startActivity(intent);
+                }
+            });
+            return viewHolder;
+        }
+
+        @Override
+        public void onBindViewHolder(MovieViewHolder holder, int position) {
+            Movie movie = mMovieList.get(position);
+            Picasso.with(mContext)
+                    .load(movie.getPoster())
+                    .placeholder(R.color.colorAccent)
+                    .into(holder.imageView);
+        }
+
+        @Override
+        public int getItemCount() {
+            return (mMovieList == null) ? 0 : mMovieList.size();
+        }
+
+        public void setMovieList(List<Movie> movieList) {
+            this.mMovieList = new ArrayList<>();
+            this.mMovieList.addAll(movieList);
+            notifyDataSetChanged();
+        }
+    }
+
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -45,6 +179,6 @@ public class MainFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-   }
+    }
 }
 

@@ -10,21 +10,12 @@ import android.view.ViewGroup;
 
 public class DetailFragment extends Fragment {
 
-    //private static final String
-    //private static final String
-
-   // private String
-    //private String
-
-    private OnFragmentInteractionListener mListener;
-
     public DetailFragment() {
     }
     public static DetailFragment newInstance(String param1, String param2) {
         DetailFragment fragment = new DetailFragment();
         Bundle args = new Bundle();
-        //args.putString(ARG_PARAM1, param1);
-        //args.putString(ARG_PARAM2, param2);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -32,8 +23,7 @@ public class DetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            //  mParam1 = getArguments().getString(ARG_PARAM1);
-            // mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
     @Override
@@ -42,28 +32,9 @@ public class DetailFragment extends Fragment {
 
         return inflater.inflate(R.layout.fragment_detail, container, false);
     }
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
-    }
-    public interface OnFragmentInteractionListener {
-
-        void onFragmentInteraction(Uri uri);
     }
 }
+

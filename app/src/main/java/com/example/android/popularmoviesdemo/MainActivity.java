@@ -4,6 +4,7 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
@@ -36,8 +37,6 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private MoviesAdapter mAdapter;
     String sortType;
-    private FragmentManager fragmentManager;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +50,6 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new MoviesAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
         List<Movie> movies = new ArrayList<>();
-
-        fragmentManager = getFragmentManager();
 
         for (int i = 0; i < 25; i++) {
             movies.add(new Movie());
@@ -146,6 +143,8 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    {
     }
     public static class MovieViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;

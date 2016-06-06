@@ -35,9 +35,6 @@ import retrofit.client.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-
-    String sortType;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,170 +42,21 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setLogo(R.mipmap.ic_launcher);
-
-
-        sortType = PreferenceManager.getDefaultSharedPreferences(this).getString(getResources().getString(R.string.pref_sort_key),
-                getResources().getString(R.string.pref_sort_most_popular));
-        if (sortType.equals(getResources().getString(R.string.pref_sort_most_popular))) {
-            getPopularMovies();
-        } else if (sortType.equals(getResources().getString(R.string.pref_sort_top_rated))) {
-            getTopRatedMovies();
-        } else if (sortType.equals("Favorites")) {
-            loadFavoriteMovies();
-        }
     }
-
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
     @Override
-    public void onResume() {
-        super.onResume();
-        String latestSortType = PreferenceManager.getDefaultSharedPreferences(this).getString(getResources().getString(R.string.pref_sort_key),
-                getResources().getString(R.string.pref_sort_most_popular));
-        if (!sortType.equals(latestSortType)) {
-            Log.i("MainActivity", "sort order changed");
-            if (latestSortType.equals(getResources().getString(R.string.pref_sort_most_popular))) {
-                getPopularMovies();
-            } else if (latestSortType.equals(getResources().getString(R.string.pref_sort_top_rated))) {
-                getTopRatedMovies();
-            } else if (latestSortType.equals("Favorites")) {
-                loadFavoriteMovies();
-            }
-            sortType = latestSortType;
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            startActivity(new Intent(this, SettingsActivity.class));
+            return true;
         }
-    }
-
-    public void loadFavoriteMovies() {
-        mAdapter.setMovieList(Arrays.asList(SharedPreferenceUtils.getFavorites(this)));
-    }
-
-    public void getPopularMovies() {
-        final RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint("http://api.themoviedb.org/3")
-                .setRequestInterceptor(new RequestInterceptor() {
-                    @Override
-                    public void intercept(RequestFacade request) {
-                        request.addEncodedQueryParam("api_key", BuildConfig.TMDB_API_KEY);
-                    }
-                })
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .build();
-        MoviesApiService service = restAdapter.create(MoviesApiService.class);
-        service.getPopularMovies(new Callback<Movie.MovieResult>() {
-            @Override
-            public void success(Movie.MovieResult movieResult, Response response) {
-                mAdapter.setMovieList(movieResult.getResults());
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                error.printStackTrace();
-            }
-        });
-    }
-
-    public void getTopRatedMovies() {
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint("http://api.themoviedb.org/3")
-                .setRequestInterceptor(new RequestInterceptor() {
-                    @Override
-                    public void intercept(RequestFacade request) {
-                        request.addEncodedQueryParam("api_key", BuildConfig.TMDB_API_KEY);
-                    }
-                })
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .build();
-        TopRatedEndpoint service = restAdapter.create(TopRatedEndpoint.class);
-        service.getTopRatedMovies(new Callback<Movie.MovieResult>() {
-            @Override
-            public void success(Movie.MovieResult movieResult, Response response) {
-                mAdapter.setMovieList(movieResult.getResults());
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                error.printStackTrace();
-            }
-        });
-    }
-
-   // public boolean onCreateOptionsMenu(Menu menu) {
-     //   getMenuInflater().inflate(R.menu.menu_main, menu);
-       // return true;
-   // }
-
-  //  @Override
-  //  public boolean onOptionsItemSelected(MenuItem item) {
-    //    int id = item.getItemId();
-     //   if (id == R.id.action_settings) {
-     //       startActivity(new Intent(this, SettingsActivity.class));
-       //     return true;
-      //  }
-      //  return super.onOptionsItemSelected(item);
-   // }
-
-    {
-    }
-
-    public static class MovieViewHolder extends RecyclerView.ViewHolder {
-        public ImageView imageView;
-
-        public MovieViewHolder(View itemView) {
-            super(itemView);
-            imageView = (ImageView) itemView.findViewById(R.id.imageView);
-        }
-    }
-
-    public static class MoviesAdapter extends RecyclerView.Adapter<MovieViewHolder> {
-        private List<Movie> mMovieList;
-        private LayoutInflater mInflater;
-        private Context mContext;
-
-        public MoviesAdapter(Context context) {
-            this.mContext = context;
-            this.mInflater = LayoutInflater.from(context);
-        }
-
-        @Override
-        public MovieViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
-            View view = mInflater.inflate(R.layout.row_movie, parent, false);
-            final MovieViewHolder viewHolder = new MovieViewHolder(view);
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int position = viewHolder.getAdapterPosition();
-                    Intent intent = new Intent(mContext, MovieDetailActivity.class);
-                    intent.putExtra(MovieDetailActivity.EXTRA_MOVIE, mMovieList.get(position));
-                    mContext.startActivity(intent);
-                }
-            });
-            return viewHolder;
-        }
-
-        @Override
-        public void onBindViewHolder(MovieViewHolder holder, int position) {
-            Movie movie = mMovieList.get(position);
-            Picasso.with(mContext)
-                    .load(movie.getPoster())
-                    .placeholder(R.color.colorAccent)
-                    .into(holder.imageView);
-        }
-
-        @Override
-        public int getItemCount() {
-            return (mMovieList == null) ? 0 : mMovieList.size();
-        }
-
-        public void setMovieList(List<Movie> movieList) {
-            this.mMovieList = new ArrayList<>();
-            this.mMovieList.addAll(movieList);
-            notifyDataSetChanged();
-        }
+        return super.onOptionsItemSelected(item);
     }
 }
-
-
-
-
-
 
 
 

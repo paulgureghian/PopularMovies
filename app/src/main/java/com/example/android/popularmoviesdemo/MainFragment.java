@@ -56,21 +56,19 @@ public class MainFragment extends Fragment {
             loadFavoriteMovies();
         }
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
-
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         mRecyclerView.setAdapter(mAdapter);
 
-        return inflater.inflate(R.layout.fragment_main, container, false);
+
+        return rootView;
+       // return inflater.inflate(R.layout.fragment_main, container, false);
     }
-
-
     @Override
     public void onResume() {
         super.onResume();
@@ -88,11 +86,9 @@ public class MainFragment extends Fragment {
             sortType = latestSortType;
         }
     }
-
     public void loadFavoriteMovies() {
         mAdapter.setMovieList(Arrays.asList(SharedPreferenceUtils.getFavorites(getActivity())));
     }
-
     public void getPopularMovies() {
         final RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://api.themoviedb.org/3")
@@ -110,14 +106,12 @@ public class MainFragment extends Fragment {
             public void success(Movie.MovieResult movieResult, Response response) {
                 mAdapter.setMovieList(movieResult.getResults());
             }
-
             @Override
             public void failure(RetrofitError error) {
                 error.printStackTrace();
             }
         });
     }
-
     public void getTopRatedMovies() {
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://api.themoviedb.org/3")
@@ -142,7 +136,6 @@ public class MainFragment extends Fragment {
             }
         });
     }
-
     public static class MovieViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
 
@@ -151,7 +144,6 @@ public class MainFragment extends Fragment {
             imageView = (ImageView) itemView.findViewById(R.id.imageView);
         }
     }
-
     public static class MoviesAdapter extends RecyclerView.Adapter<MovieViewHolder> {
         private List<Movie> mMovieList;
         private LayoutInflater mInflater;
@@ -161,7 +153,6 @@ public class MainFragment extends Fragment {
             this.mContext = context;
             this.mInflater = LayoutInflater.from(context);
         }
-
         @Override
         public MovieViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
             View view = mInflater.inflate(R.layout.row_movie, parent, false);
@@ -177,7 +168,6 @@ public class MainFragment extends Fragment {
             });
             return viewHolder;
         }
-
         @Override
         public void onBindViewHolder(MovieViewHolder holder, int position) {
             Movie movie = mMovieList.get(position);
@@ -186,7 +176,6 @@ public class MainFragment extends Fragment {
                     .placeholder(R.color.colorAccent)
                     .into(holder.imageView);
         }
-
         @Override
         public int getItemCount() {
             return (mMovieList == null) ? 0 : mMovieList.size();
@@ -198,7 +187,6 @@ public class MainFragment extends Fragment {
             notifyDataSetChanged();
         }
     }
-
     @Override
     public void onDetach() {
         super.onDetach();

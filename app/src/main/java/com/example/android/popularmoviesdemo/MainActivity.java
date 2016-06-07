@@ -33,7 +33,9 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class MainActivity extends AppCompatActivity implements DetailFragment.Callback {
+public class MainActivity extends AppCompatActivity {
+
+    protected boolean mTwoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +58,24 @@ public class MainActivity extends AppCompatActivity implements DetailFragment.Ca
         }
         return super.onOptionsItemSelected(item);
     }
-}
+    public void onItemSelected() {
+        if (mTwoPane) {
+            Bundle args = new Bundle();
+            args.putParcelable(DetailFragment.DETAIL_URI, contentUri);
 
+            DetailFragment fragment = new DetailFragment();
+            fragment.setArguments(args);
+
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.movie_detail_container, fragment, DETAILFRAGMENT_TAG)
+                    .commit();
+        } else {
+            Intent intent = new Intent(this, MovieDetailActivity.class)
+                    .setData(cotentUri);
+            startActivity(intent);
+        }
+    }
+}
 
 
 

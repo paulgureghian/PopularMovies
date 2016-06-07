@@ -64,10 +64,7 @@ public class MainFragment extends Fragment {
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         mRecyclerView.setAdapter(mAdapter);
-
-
         return rootView;
-       // return inflater.inflate(R.layout.fragment_main, container, false);
     }
     @Override
     public void onResume() {
@@ -89,6 +86,7 @@ public class MainFragment extends Fragment {
     public void loadFavoriteMovies() {
         mAdapter.setMovieList(Arrays.asList(SharedPreferenceUtils.getFavorites(getActivity())));
     }
+
     public void getPopularMovies() {
         final RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://api.themoviedb.org/3")
@@ -129,7 +127,6 @@ public class MainFragment extends Fragment {
             public void success(Movie.MovieResult movieResult, Response response) {
                 mAdapter.setMovieList(movieResult.getResults());
             }
-
             @Override
             public void failure(RetrofitError error) {
                 error.printStackTrace();
@@ -187,9 +184,6 @@ public class MainFragment extends Fragment {
             notifyDataSetChanged();
         }
     }
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
 }
+
 

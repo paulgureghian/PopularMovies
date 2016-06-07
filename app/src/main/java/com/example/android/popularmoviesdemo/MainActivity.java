@@ -33,7 +33,7 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DetailFragment.Callback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

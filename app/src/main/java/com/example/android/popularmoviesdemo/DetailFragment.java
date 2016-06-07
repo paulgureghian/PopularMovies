@@ -36,5 +36,8 @@ public class DetailFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
     }
+
+    public interface Callback {
+    }
 }
 

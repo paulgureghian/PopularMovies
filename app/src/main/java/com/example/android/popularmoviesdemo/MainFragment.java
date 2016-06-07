@@ -33,21 +33,12 @@ public class MainFragment extends Fragment {
     private MoviesAdapter mAdapter;
     String sortType;
 
-    public MainFragment() {
-    }
-    public static MainFragment newInstance(String param1, String param2) {
-        MainFragment fragment = new MainFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        mAdapter = new MoviesAdapter(this);
-        mRecyclerView.setAdapter(mAdapter);
+
+        mAdapter = new MoviesAdapter(getContext());
+
         List<Movie> movies = new ArrayList<>();
 
         for (int i = 0; i < 25; i++) {
@@ -55,7 +46,7 @@ public class MainFragment extends Fragment {
         }
         mAdapter.setMovieList(movies);
 
-        sortType = PreferenceManager.getDefaultSharedPreferences(this).getString(getResources().getString(R.string.pref_sort_key),
+        sortType = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(getResources().getString(R.string.pref_sort_key),
                 getResources().getString(R.string.pref_sort_most_popular));
         if (sortType.equals(getResources().getString(R.string.pref_sort_most_popular))) {
             getPopularMovies();
@@ -65,10 +56,25 @@ public class MainFragment extends Fragment {
             loadFavoriteMovies();
         }
     }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
+
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        mRecyclerView.setAdapter(mAdapter);
+
+        return inflater.inflate(R.layout.fragment_main, container, false);
+    }
+
+
     @Override
     public void onResume() {
         super.onResume();
-        String latestSortType = PreferenceManager.getDefaultSharedPreferences(this).getString(getResources().getString(R.string.pref_sort_key),
+        String latestSortType = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(getResources().getString(R.string.pref_sort_key),
                 getResources().getString(R.string.pref_sort_most_popular));
         if (!sortType.equals(latestSortType)) {
             Log.i("MainActivity", "sort order changed");
@@ -82,9 +88,11 @@ public class MainFragment extends Fragment {
             sortType = latestSortType;
         }
     }
+
     public void loadFavoriteMovies() {
-        mAdapter.setMovieList(Arrays.asList(SharedPreferenceUtils.getFavorites(this)));
+        mAdapter.setMovieList(Arrays.asList(SharedPreferenceUtils.getFavorites(getActivity())));
     }
+
     public void getPopularMovies() {
         final RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://api.themoviedb.org/3")
@@ -109,6 +117,7 @@ public class MainFragment extends Fragment {
             }
         });
     }
+
     public void getTopRatedMovies() {
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://api.themoviedb.org/3")
@@ -126,70 +135,70 @@ public class MainFragment extends Fragment {
             public void success(Movie.MovieResult movieResult, Response response) {
                 mAdapter.setMovieList(movieResult.getResults());
             }
+
             @Override
             public void failure(RetrofitError error) {
                 error.printStackTrace();
             }
         });
     }
-public static class MovieViewHolder extends RecyclerView.ViewHolder {
-    public ImageView imageView;
 
-    public MovieViewHolder(View itemView) {
-        super(itemView);
-        imageView = (ImageView) itemView.findViewById(R.id.imageView);
-    }
-}
-public static class MoviesAdapter extends RecyclerView.Adapter<MovieViewHolder> {
-    private List<Movie> mMovieList;
-    private LayoutInflater mInflater;
-    private Context mContext;
+    public static class MovieViewHolder extends RecyclerView.ViewHolder {
+        public ImageView imageView;
 
-    public MoviesAdapter(Context context) {
-        this.mContext = context;
-        this.mInflater = LayoutInflater.from(context);
-    }
-    @Override
-    public MovieViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
-        View view = mInflater.inflate(R.layout.row_movie, parent, false);
-        final MovieViewHolder viewHolder = new MovieViewHolder(view);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int position = viewHolder.getAdapterPosition();
-                Intent intent = new Intent(mContext, MovieDetailActivity.class);
-                intent.putExtra(MovieDetailActivity.EXTRA_MOVIE, mMovieList.get(position));
-                mContext.startActivity(intent);
-            }
-        });
-        return viewHolder;
-    }
-    @Override
-    public void onBindViewHolder(MovieViewHolder holder, int position) {
-        Movie movie = mMovieList.get(position);
-        Picasso.with(mContext)
-                .load(movie.getPoster())
-                .placeholder(R.color.colorAccent)
-                .into(holder.imageView);
-    }
-    @Override
-    public int getItemCount() {
-        return (mMovieList == null) ? 0 : mMovieList.size();
+        public MovieViewHolder(View itemView) {
+            super(itemView);
+            imageView = (ImageView) itemView.findViewById(R.id.imageView);
+        }
     }
 
-    public void setMovieList(List<Movie> movieList) {
-        this.mMovieList = new ArrayList<>();
-        this.mMovieList.addAll(movieList);
-        notifyDataSetChanged();
+    public static class MoviesAdapter extends RecyclerView.Adapter<MovieViewHolder> {
+        private List<Movie> mMovieList;
+        private LayoutInflater mInflater;
+        private Context mContext;
+
+        public MoviesAdapter(Context context) {
+            this.mContext = context;
+            this.mInflater = LayoutInflater.from(context);
+        }
+
+        @Override
+        public MovieViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
+            View view = mInflater.inflate(R.layout.row_movie, parent, false);
+            final MovieViewHolder viewHolder = new MovieViewHolder(view);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = viewHolder.getAdapterPosition();
+                    Intent intent = new Intent(mContext, MovieDetailActivity.class);
+                    intent.putExtra(MovieDetailActivity.EXTRA_MOVIE, mMovieList.get(position));
+                    mContext.startActivity(intent);
+                }
+            });
+            return viewHolder;
+        }
+
+        @Override
+        public void onBindViewHolder(MovieViewHolder holder, int position) {
+            Movie movie = mMovieList.get(position);
+            Picasso.with(mContext)
+                    .load(movie.getPoster())
+                    .placeholder(R.color.colorAccent)
+                    .into(holder.imageView);
+        }
+
+        @Override
+        public int getItemCount() {
+            return (mMovieList == null) ? 0 : mMovieList.size();
+        }
+
+        public void setMovieList(List<Movie> movieList) {
+            this.mMovieList = new ArrayList<>();
+            this.mMovieList.addAll(movieList);
+            notifyDataSetChanged();
+        }
     }
 
-}
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        return inflater.inflate(R.layout.fragment_main, container, false);
-    }
     @Override
     public void onDetach() {
         super.onDetach();

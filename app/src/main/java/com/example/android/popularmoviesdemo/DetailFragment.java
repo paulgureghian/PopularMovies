@@ -12,7 +12,7 @@ public class DetailFragment extends Fragment {
 
     public DetailFragment() {
     }
-    public static DetailFragment newInstance(String param1, String param2) {
+    public  DetailFragment newInstance(String param1, String param2) {
         DetailFragment fragment = new DetailFragment();
         Bundle args = new Bundle();
 

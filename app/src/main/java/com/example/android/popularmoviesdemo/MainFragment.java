@@ -29,6 +29,8 @@ import retrofit.client.Response;
 
 public class MainFragment extends Fragment {
 
+    MainActivity mainActivity = new MainActivity();
+
     private RecyclerView mRecyclerView;
     private MoviesAdapter mAdapter;
     String sortType;
@@ -133,7 +135,7 @@ public class MainFragment extends Fragment {
             }
         });
     }
-    public static class MovieViewHolder extends RecyclerView.ViewHolder {
+    public static   class MovieViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
 
         public MovieViewHolder(View itemView) {
@@ -141,7 +143,7 @@ public class MainFragment extends Fragment {
             imageView = (ImageView) itemView.findViewById(R.id.imageView);
         }
     }
-    public static class MoviesAdapter extends RecyclerView.Adapter<MovieViewHolder> {
+    public static   class MoviesAdapter extends RecyclerView.Adapter<MovieViewHolder> {
         private List<Movie> mMovieList;
         private LayoutInflater mInflater;
         private Context mContext;
@@ -157,6 +159,17 @@ public class MainFragment extends Fragment {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
+             if (mainActivity.mTwoPane){
+
+
+             }
+
+
+
+
+
+
                     int position = viewHolder.getAdapterPosition();
                     Intent intent = new Intent(mContext, MovieDetailActivity.class);
                     intent.putExtra(MovieDetailActivity.EXTRA_MOVIE, mMovieList.get(position));

@@ -33,15 +33,21 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class MainActivity extends AppCompatActivity implements DetailFragment.Callback {
+public class MainActivity extends AppCompatActivity {
 
     private static final String DETAILFRAGMENT_TAG = "DFTAG";
-    protected boolean mTwoPane;
+    public boolean mTwoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (findViewById(R.id.movie_detail_container) != null) {
+            mTwoPane = true;
+        } else {
+            mTwoPane = false;
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setLogo(R.mipmap.ic_launcher);
@@ -59,25 +65,9 @@ public class MainActivity extends AppCompatActivity implements DetailFragment.Ca
         }
         return super.onOptionsItemSelected(item);
     }
-    @Override
-    public void onItemSelected(Uri contentUri) {
-        if (mTwoPane) {
-            Bundle args = new Bundle();
-            args.putParcelable(DetailFragment.DETAIL_URI, contentUri);
-
-            DetailFragment fragment = new DetailFragment();
-            fragment.setArguments(args);
-
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.movie_detail_container, fragment, DETAILFRAGMENT_TAG)
-                    .commit();
-        } else {
-            Intent intent = new Intent(this, MovieDetailActivity.class)
-                    .setData(contentUri);
-            startActivity(intent);
-        }
-    }
 }
+
+
 
 
 

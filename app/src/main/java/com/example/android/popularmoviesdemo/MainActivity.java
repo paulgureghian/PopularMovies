@@ -35,7 +35,6 @@ import retrofit.client.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String DETAILFRAGMENT_TAG = "DFTAG";
     public boolean mTwoPane;
 
     @Override

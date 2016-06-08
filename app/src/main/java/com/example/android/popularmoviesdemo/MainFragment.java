@@ -29,8 +29,6 @@ import retrofit.client.Response;
 
 public class MainFragment extends Fragment {
 
-    MainActivity mainActivity = new MainActivity();
-
     private RecyclerView mRecyclerView;
     private MoviesAdapter mAdapter;
     String sortType;
@@ -88,7 +86,6 @@ public class MainFragment extends Fragment {
     public void loadFavoriteMovies() {
         mAdapter.setMovieList(Arrays.asList(SharedPreferenceUtils.getFavorites(getActivity())));
     }
-
     public void getPopularMovies() {
         final RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://api.themoviedb.org/3")
@@ -160,9 +157,17 @@ public class MainFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
 
+                    MainActivity mainActivity = new MainActivity();
+
              if (mainActivity.mTwoPane){
+                 Log.i("MainFrag", "tablet");
 
 
+             }else {
+                 int position = viewHolder.getAdapterPosition();
+                 Intent intent = new Intent(mContext, MovieDetailActivity.class);
+                 intent.putExtra(MovieDetailActivity.EXTRA_MOVIE, mMovieList.get(position));
+                 mContext.startActivity(intent);
              }
 
 

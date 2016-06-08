@@ -11,13 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class DetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
-
-    static final String DETAIL_URI = "URI";
-
-    public interface Callback {
-        public void onItemSelected(Uri dateUri);
-    }
+public class DetailFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,21 +23,5 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                              Bundle savedInstanceState) {
 
         return inflater.inflate(R.layout.fragment_detail, container, false);
-    }
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return null;
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
-    }
-
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
     }
 }

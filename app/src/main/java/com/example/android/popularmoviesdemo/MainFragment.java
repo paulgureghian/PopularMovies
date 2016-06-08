@@ -1,9 +1,8 @@
 package com.example.android.popularmoviesdemo;
 
-import android.app.Activity;
+
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -166,7 +165,7 @@ public class MainFragment extends Fragment {
              }else {
                  int position = viewHolder.getAdapterPosition();
                  Intent intent = new Intent(mContext, MovieDetailActivity.class);
-                 intent.putExtra(MovieDetailActivity.EXTRA_MOVIE, mMovieList.get(position));
+                 intent.putExtra(DetailFragment.EXTRA_MOVIE, mMovieList.get(position));
                  mContext.startActivity(intent);
              }
 
@@ -177,7 +176,7 @@ public class MainFragment extends Fragment {
 
                     int position = viewHolder.getAdapterPosition();
                     Intent intent = new Intent(mContext, MovieDetailActivity.class);
-                    intent.putExtra(MovieDetailActivity.EXTRA_MOVIE, mMovieList.get(position));
+                    intent.putExtra(DetailFragment.EXTRA_MOVIE, mMovieList.get(position));
                     mContext.startActivity(intent);
                 }
             });

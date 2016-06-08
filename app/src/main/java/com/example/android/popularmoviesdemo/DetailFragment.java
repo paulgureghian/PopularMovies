@@ -10,7 +10,11 @@ import android.view.ViewGroup;
 
 public class DetailFragment extends Fragment {
 
+    static final String DETAIL_URI = "URI";
 
+    public interface Callback {
+        public void onItemSelected(Uri dateUri);
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

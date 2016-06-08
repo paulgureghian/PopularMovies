@@ -33,8 +33,9 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DetailFragment.Callback {
 
+    private static final String DETAILFRAGMENT_TAG = "DFTAG";
     protected boolean mTwoPane;
 
     @Override
@@ -58,7 +59,9 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    public void onItemSelected() {
+
+    @Override
+    public void onItemSelected(Uri contentUri) {
         if (mTwoPane) {
             Bundle args = new Bundle();
             args.putParcelable(DetailFragment.DETAIL_URI, contentUri);
@@ -71,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                     .commit();
         } else {
             Intent intent = new Intent(this, MovieDetailActivity.class)
-                    .setData(cotentUri);
+                    .setData(contentUri);
             startActivity(intent);
         }
     }

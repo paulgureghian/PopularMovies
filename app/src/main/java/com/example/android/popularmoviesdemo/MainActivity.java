@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements DetailFragment.Ca
         }
         return super.onOptionsItemSelected(item);
     }
-
     @Override
     public void onItemSelected(Uri contentUri) {
         if (mTwoPane) {

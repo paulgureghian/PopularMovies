@@ -36,6 +36,7 @@ import retrofit.client.Response;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String DETAILFRAGMENT_TAG = "DFTAG";
     public static boolean mTwoPane;
 
     @Override
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
             mTwoPane = true;
             if (savedInstanceState == null) {
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.movie_detail_container, new DetailFragment(), DETAILFRAGMNET_TAG)
+                        .replace(R.id.movie_detail_container, new DetailFragment(), DETAILFRAGMENT_TAG)
                         .commit();
             }
         } else {
@@ -55,8 +56,8 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().setElevation(0f);
         }
         DetailFragment detailFragment = ((DetailFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.detailFragment));
-        detailFragment.setArguments(!mTwoPane);
+                .findFragmentById(R.id.movie_detail_container));
+
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -79,26 +80,12 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onItemSelected(Uri contentUri) {
-        if (mTwoPane) {
-            Bundle args = new Bundle();
-            args.putParcelable(DetailFragment.DETAIL_URI, contentUri);
 
-            DetailFragment fragment = new DetailFragment();
-            fragment.setArguments(args);
 
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.movie_detail_container, fragment, DETAILFRAGMENT_TAG)
-                    .commit();
-        } else {
-            Intent intent = new Intent(this, MovieDetailActivity.class)
-                    .setData(contentUri);
-            startActivity(intent);
         }
 
-    }
-}
+
+
 
 
 

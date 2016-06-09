@@ -2,6 +2,7 @@ package com.example.android.popularmoviesdemo;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -29,8 +30,6 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-
-
 public class DetailFragment extends Fragment {
     public static final String EXTRA_MOVIE = "movie";
     Movie mMovie;
@@ -45,32 +44,7 @@ public class DetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getIntent().hasExtra(EXTRA_MOVIE)) {
-            mMovie = getIntent().getParcelableExtra(EXTRA_MOVIE);
-        } else {
-            throw new IllegalArgumentException("Detail activity must receive a movie parcelable");
-        }
-
-
-        final Context context = this;
-        favoriteCheckBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (SharedPreferenceUtils.isFavorite(context, mMovie.getId())) {
-                    SharedPreferenceUtils.removeFavorite(context, mMovie);
-                } else {
-                    SharedPreferenceUtils.addFavorite(context, mMovie);
-                }
-            }
-
-        });
-        Picasso.with(this)
-                .load(mMovie.getPoster())
-                .into(poster);
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -88,8 +62,31 @@ public class DetailFragment extends Fragment {
         title.setText(mMovie.getTitle());
         description.setText(mMovie.getDescription());
         favoriteCheckBox = (CheckBox) rootview.findViewById(R.id.favoriteCheckBox);
-
         favoriteCheckBox.setChecked(SharedPreferenceUtils.isFavorite(this, mMovie.getId()));
+
+        if (getActivity().getIntent().hasExtra(EXTRA_MOVIE)) {
+            mMovie = getActivity().getIntent().getParcelableExtra(EXTRA_MOVIE);
+        } else {
+            throw new IllegalArgumentException("Detail activity must receive a movie parcelable");
+        }
+
+
+        final DetailFragment context = this;
+        favoriteCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (SharedPreferenceUtils.isFavorite(context, mMovie.getId())) {
+                    SharedPreferenceUtils.removeFavorite(context, mMovie);
+                } else {
+                    SharedPreferenceUtils.addFavorite(context, mMovie);
+                }
+            }
+
+        });
+        Picasso.with(this.getActivity())
+                .load(mMovie.getPoster())
+                .into(poster);
+
 
         return rootview;
 
@@ -198,7 +195,7 @@ public class DetailFragment extends Fragment {
                         Review review = new Review(author, content);
                         mMovie.putReview(review);
                     }
-                    Intent intent = new Intent(getApplicationContext(), ReviewActivity.class);
+                    Intent intent = new Intent(getActivity(), ReviewActivity.class);
                     intent.putParcelableArrayListExtra("reviews", mMovie.getReviews());
                     startActivity(intent);
 
@@ -212,6 +209,10 @@ public class DetailFragment extends Fragment {
             }
         });
     }
-}
+
+
+    }
+
+
 
 

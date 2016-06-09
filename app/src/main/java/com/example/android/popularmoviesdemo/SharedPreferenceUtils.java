@@ -11,11 +11,11 @@ public class SharedPreferenceUtils {
 
     public SharedPreferenceUtils() {
     }
-    public static void addFavorite(Context context, Movie movie) {
+    public static void addFavorite(DetailFragment context, Movie movie) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         sharedPreferences.edit().putString(movie.getId(), new Gson().toJson(movie)).apply();
     }
-    public static void removeFavorite(Context context, String id) {
+    public static void removeFavorite(DetailFragment context, Movie id) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         sharedPreferences.edit().remove(id).apply();
     }
@@ -37,7 +37,7 @@ public class SharedPreferenceUtils {
         }
         return movieCollection;
     }
-    public static boolean isFavorite(Context context, String id) {
+    public static boolean isFavorite(DetailFragment context, String id) {
         return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).contains(id);
     }
 }

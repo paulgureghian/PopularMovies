@@ -156,9 +156,12 @@ public class MainFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
 
-                    MainActivity mainActivity = new MainActivity();
 
-             if (mainActivity.mTwoPane){
+
+             if (MainActivity.mTwoPane){
+
+
+
                  Log.i("MainFrag", "tablet");
 
 
@@ -174,10 +177,7 @@ public class MainFragment extends Fragment {
 
 
 
-                    int position = viewHolder.getAdapterPosition();
-                    Intent intent = new Intent(mContext, MovieDetailActivity.class);
-                    intent.putExtra(DetailFragment.EXTRA_MOVIE, mMovieList.get(position));
-                    mContext.startActivity(intent);
+
                 }
             });
             return viewHolder;

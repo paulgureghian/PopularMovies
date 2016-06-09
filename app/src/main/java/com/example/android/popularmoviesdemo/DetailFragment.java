@@ -29,6 +29,8 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
+
+
 public class DetailFragment extends Fragment {
     public static final String EXTRA_MOVIE = "movie";
     Movie mMovie;
@@ -68,7 +70,7 @@ public class DetailFragment extends Fragment {
                 .into(poster);
     }
 
-}
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

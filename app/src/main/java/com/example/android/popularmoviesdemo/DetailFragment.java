@@ -71,12 +71,12 @@ public class DetailFragment extends Fragment {
         }
 
 
-        final DetailFragment context = this;
+        final  Context context = this.getActivity();
         favoriteCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (SharedPreferenceUtils.isFavorite(context, mMovie.getId())) {
-                    SharedPreferenceUtils.removeFavorite(context, mMovie);
+                if  (SharedPreferenceUtils.isFavorite (getActivity().   mMovie.getId())) {
+                    SharedPreferenceUtils.removeFavorite(getActivity(). mMovie);
                 } else {
                     SharedPreferenceUtils.addFavorite(context, mMovie);
                 }
@@ -211,8 +211,7 @@ public class DetailFragment extends Fragment {
     }
 
 
-    }
-
+}
 
 
 

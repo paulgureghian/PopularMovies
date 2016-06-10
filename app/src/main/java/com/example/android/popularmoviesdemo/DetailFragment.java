@@ -50,53 +50,45 @@ public class DetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
         if (getActivity().getIntent().hasExtra(EXTRA_MOVIE)) {
             mMovie = getActivity().getIntent().getParcelableExtra(EXTRA_MOVIE);
-
         }
-        final  Context context = this.getActivity();
-
+        final Context context = this.getActivity();
 
         View rootview = inflater.inflate(R.layout.fragment_detail, container, false);
-
 
         average = (TextView) rootview.findViewById(R.id.vote_average);
         date = (TextView) rootview.findViewById(R.id.release_date);
         title = (TextView) rootview.findViewById(R.id.movie_title);
         description = (TextView) rootview.findViewById(R.id.movie_description);
         poster = (ImageView) rootview.findViewById(R.id.movie_poster);
+        favoriteCheckBox = (CheckBox) rootview.findViewById(R.id.favoriteCheckBox);
+
+        return rootview;
+    }
+    public void loadMovie(final Movie movie) {
+
         average.setText(mMovie.getAverage());
         date.setText(mMovie.getDate());
         title.setText(mMovie.getTitle());
         description.setText(mMovie.getDescription());
-        favoriteCheckBox = (CheckBox) rootview.findViewById(R.id.favoriteCheckBox);
+
         favoriteCheckBox.setChecked(SharedPreferenceUtils.isFavorite(this.getActivity(), mMovie.getId()));
-
-
-
-
 
         favoriteCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if  (SharedPreferenceUtils.isFavorite (getActivity(),   mMovie.getId())) {
-                    SharedPreferenceUtils.removeFavorite(getActivity(),  mMovie);
+                if (SharedPreferenceUtils.isFavorite(getActivity(), movie.getId())) {
+                    SharedPreferenceUtils.removeFavorite(getActivity(), movie);
                 } else {
-                    SharedPreferenceUtils.addFavorite(context, mMovie);
+                    SharedPreferenceUtils.addFavorite(getContext(), mMovie);
                 }
             }
-
         });
         Picasso.with(this.getActivity())
                 .load(mMovie.getPoster())
                 .into(poster);
-
-
-        return rootview;
-
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -108,7 +100,6 @@ public class DetailFragment extends Fragment {
         }
         return super.onOptionsItemSelected(item);
     }
-
     public void LaunchTrailer(View view) {
         final RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://api.themoviedb.org/3")
@@ -153,14 +144,12 @@ public class DetailFragment extends Fragment {
                     e.printStackTrace();
                 }
             }
-
             @Override
             public void failure(RetrofitError error) {
                 error.printStackTrace();
             }
         });
     }
-
     public void LaunchReview(View view) {
         final RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://api.themoviedb.org/3")
@@ -208,14 +197,11 @@ public class DetailFragment extends Fragment {
                     e.printStackTrace();
                 }
             }
-
             @Override
             public void failure(RetrofitError error) {
             }
         });
     }
-
-
 }
 
 

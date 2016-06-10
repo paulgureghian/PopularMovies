@@ -50,7 +50,16 @@ public class DetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+
+        if (getActivity().getIntent().hasExtra(EXTRA_MOVIE)) {
+            mMovie = getActivity().getIntent().getParcelableExtra(EXTRA_MOVIE);
+
+        }
+        final  Context context = this.getActivity();
+
+
         View rootview = inflater.inflate(R.layout.fragment_detail, container, false);
+
 
         average = (TextView) rootview.findViewById(R.id.vote_average);
         date = (TextView) rootview.findViewById(R.id.release_date);
@@ -64,14 +73,10 @@ public class DetailFragment extends Fragment {
         favoriteCheckBox = (CheckBox) rootview.findViewById(R.id.favoriteCheckBox);
         favoriteCheckBox.setChecked(SharedPreferenceUtils.isFavorite(this.getActivity(), mMovie.getId()));
 
-        if (getActivity().getIntent().hasExtra(EXTRA_MOVIE)) {
-            mMovie = getActivity().getIntent().getParcelableExtra(EXTRA_MOVIE);
-        } else {
-            throw new IllegalArgumentException("Detail activity must receive a movie parcelable");
-        }
 
 
-        final  Context context = this.getActivity();
+
+
         favoriteCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

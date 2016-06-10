@@ -17,11 +17,9 @@ public class SharedPreferenceUtils {
     }
     public static void removeFavorite(Context context, Movie id) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        sharedPreferences.edit().remove(id).apply();
+        sharedPreferences.edit().remove(String.valueOf(id)).apply();
     }
-    public static void removeFavorite(Context context, Movie movie) {
-        removeFavorite(context, movie.getId());
-    }
+
     public static Movie[] getFavorites(Context context) {
         Movie[] movieCollection;
 
@@ -37,7 +35,7 @@ public class SharedPreferenceUtils {
         }
         return movieCollection;
     }
-    public static boolean isFavorite(DetailFragment context, String id) {
+    public static boolean isFavorite(Context context, String id) {
         return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).contains(id);
     }
 }

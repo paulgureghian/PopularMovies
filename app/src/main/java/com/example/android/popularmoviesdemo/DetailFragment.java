@@ -62,7 +62,7 @@ public class DetailFragment extends Fragment {
         title.setText(mMovie.getTitle());
         description.setText(mMovie.getDescription());
         favoriteCheckBox = (CheckBox) rootview.findViewById(R.id.favoriteCheckBox);
-        favoriteCheckBox.setChecked(SharedPreferenceUtils.isFavorite(this, mMovie.getId()));
+        favoriteCheckBox.setChecked(SharedPreferenceUtils.isFavorite(this.getActivity(), mMovie.getId()));
 
         if (getActivity().getIntent().hasExtra(EXTRA_MOVIE)) {
             mMovie = getActivity().getIntent().getParcelableExtra(EXTRA_MOVIE);
@@ -75,8 +75,8 @@ public class DetailFragment extends Fragment {
         favoriteCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if  (SharedPreferenceUtils.isFavorite (getActivity().   mMovie.getId())) {
-                    SharedPreferenceUtils.removeFavorite(getActivity(). mMovie);
+                if  (SharedPreferenceUtils.isFavorite (getActivity(),   mMovie.getId())) {
+                    SharedPreferenceUtils.removeFavorite(getActivity(),  mMovie);
                 } else {
                     SharedPreferenceUtils.addFavorite(context, mMovie);
                 }

@@ -68,12 +68,12 @@ public class DetailFragment extends Fragment {
     }
     public void loadMovie(final Movie movie) {
 
-        average.setText(mMovie.getAverage());
-        date.setText(mMovie.getDate());
-        title.setText(mMovie.getTitle());
-        description.setText(mMovie.getDescription());
+        average.setText(movie.getAverage());
+        date.setText(movie.getDate());
+        title.setText(movie.getTitle());
+        description.setText(movie.getDescription());
 
-        favoriteCheckBox.setChecked(SharedPreferenceUtils.isFavorite(this.getActivity(), mMovie.getId()));
+        favoriteCheckBox.setChecked(SharedPreferenceUtils.isFavorite(this.getActivity(), movie.getId()));
 
         favoriteCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,12 +81,12 @@ public class DetailFragment extends Fragment {
                 if (SharedPreferenceUtils.isFavorite(getActivity(), movie.getId())) {
                     SharedPreferenceUtils.removeFavorite(getActivity(), movie);
                 } else {
-                    SharedPreferenceUtils.addFavorite(getContext(), mMovie);
+                    SharedPreferenceUtils.addFavorite(getContext(), movie);
                 }
             }
         });
         Picasso.with(this.getActivity())
-                .load(mMovie.getPoster())
+                .load(movie.getPoster())
                 .into(poster);
     }
     @Override

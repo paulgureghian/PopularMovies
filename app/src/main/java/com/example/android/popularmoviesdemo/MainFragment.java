@@ -156,9 +156,9 @@ public class MainFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
 
-
-
              if (MainActivity.mTwoPane){
+
+
 
 
 

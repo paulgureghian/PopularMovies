@@ -53,7 +53,10 @@ public class MainActivity extends AppCompatActivity {
             }
         } else {
             mTwoPane = false;
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
             getSupportActionBar().setElevation(0f);
+
         }
         DetailFragment detailFragment = ((DetailFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.movie_detail_container));

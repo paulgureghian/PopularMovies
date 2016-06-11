@@ -64,6 +64,8 @@ public class DetailFragment extends Fragment {
         poster = (ImageView) rootview.findViewById(R.id.movie_poster);
         favoriteCheckBox = (CheckBox) rootview.findViewById(R.id.favoriteCheckBox);
 
+        loadMovie(mMovie);
+
         return rootview;
     }
     public void loadMovie(final Movie movie) {

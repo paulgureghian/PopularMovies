@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -159,10 +160,13 @@ public class MainFragment extends Fragment {
              if (MainActivity.mTwoPane){
 
 
-
-
-
                  Log.i("MainFrag", "tablet");
+
+                 FragmentActivity mActivity = new FragmentActivity();
+                 mActivity.getSupportFragmentManager().beginTransaction()
+                         .replace(R.id.movie_detail_container, new DetailFragment(), "DetailFrag")
+                         .commit();
+
 
 
              }else {

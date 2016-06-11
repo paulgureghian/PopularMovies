@@ -158,6 +158,10 @@ public class MainFragment extends Fragment {
 
              if (MainActivity.mTwoPane){
 
+                DetailFragment detailFragment = (DetailFragment)
+                        if (detailFragment == null || detailFragment.loadMovie() {
+                     detailFragment = DetailFragment.newInstance();
+                 }
 
 
 

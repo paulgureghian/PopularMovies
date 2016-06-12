@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -55,7 +56,7 @@ public class DetailFragment extends Fragment {
         }
         final Context context = this.getActivity();
 
-        View rootview = inflater.inflate(R.layout.fragment_detail, container, false);
+        View rootview = inflater.inflate(R.layout.content_movie_detail, container, false);
 
         average = (TextView) rootview.findViewById(R.id.vote_average);
         date = (TextView) rootview.findViewById(R.id.release_date);
@@ -64,10 +65,29 @@ public class DetailFragment extends Fragment {
         poster = (ImageView) rootview.findViewById(R.id.movie_poster);
         favoriteCheckBox = (CheckBox) rootview.findViewById(R.id.favoriteCheckBox);
 
+        Button button = (Button) rootview.findViewById(R.id.Trailer);
+        Button button1 = (Button) rootview.findViewById(R.id.Review);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                int id = getView().getId();
+                if (id == R.id.Trailer){
+                    LaunchTrailer(null);
+                }else if (id == R.id.Review){
+                    LaunchReview(null);
+
+                }
+
+            }
+        });
+
+
         loadMovie(mMovie);
 
         return rootview;
     }
+
     public void loadMovie(final Movie movie) {
 
         average.setText(movie.getAverage());
@@ -91,17 +111,18 @@ public class DetailFragment extends Fragment {
                 .load(movie.getPoster())
                 .into(poster);
     }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.Trailer) {
-            LaunchTrailer(null);
-        } else if (id == R.id.Review) {
-            LaunchReview(null);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+    //  @Override
+    //  public boolean onOptionsItemSelected(MenuItem item) {
+    //      int id = item.getItemId();
+    //      if (id == R.id.Trailer) {
+    //          LaunchTrailer(null);
+    //      } else if (id == R.id.Review) {
+    //          LaunchReview(null);
+    //          return true;
+    //      }
+    //      return super.onOptionsItemSelected(item);
+    //  }
+
     public void LaunchTrailer(View view) {
         final RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://api.themoviedb.org/3")
@@ -146,12 +167,14 @@ public class DetailFragment extends Fragment {
                     e.printStackTrace();
                 }
             }
+
             @Override
             public void failure(RetrofitError error) {
                 error.printStackTrace();
             }
         });
     }
+
     public void LaunchReview(View view) {
         final RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://api.themoviedb.org/3")
@@ -199,6 +222,7 @@ public class DetailFragment extends Fragment {
                     e.printStackTrace();
                 }
             }
+
             @Override
             public void failure(RetrofitError error) {
             }

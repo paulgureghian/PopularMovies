@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'com.getkeepsafe.dexcount'
+
 
 android {
     compileSdkVersion 23
@@ -28,7 +30,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.0.1'
-    compile 'com.android.support:multidex:1.0.0'
+    compile 'com.android.support:multidex:1.0.1'
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:design:23.4.0'
     compile 'com.android.support:recyclerview-v7:23.4.0'

@@ -29,6 +29,7 @@ import retrofit.client.Response;
 
 public class MainFragment extends Fragment {
 
+    private static final String DETAILFRAGMENT_TAG = "DFTAG";
     private RecyclerView mRecyclerView;
     private MoviesAdapter mAdapter;
     String sortType;
@@ -159,15 +160,19 @@ public class MainFragment extends Fragment {
 
              if (MainActivity.mTwoPane){
 
-
-                 Log.i("MainFrag", "tablet");
+                 Bundle args = new Bundle();
+                 int position;
+                 position = 0;
+                 args.putParcelable(DetailFragment.EXTRA_MOVIE, mMovieList.get(position));
+                 DetailFragment fragment = new DetailFragment();
+                 fragment.setArguments(args);
 
                  FragmentActivity mActivity = new FragmentActivity();
                  mActivity.getSupportFragmentManager().beginTransaction()
-                         .replace(R.id.movie_detail_container, new DetailFragment(), "DetailFrag")
+                         .replace(R.id.movie_detail_container, fragment, DETAILFRAGMENT_TAG)
                          .commit();
 
-
+                 Log.i("MainFrag", "tablet");
 
              }else {
                  int position = viewHolder.getAdapterPosition();

@@ -76,18 +76,24 @@ public class DetailFragment extends Fragment {
                     LaunchTrailer(null);
                 }else if (id == R.id.Review){
                     LaunchReview(null);
-
                 }
-
             }
         });
-
 
         loadMovie(mMovie);
 
         return rootview;
     }
+    public void onViewCreated (View view, Bundle savedInstanceState){
+            super.onViewCreated(view, savedInstanceState);
 
+        Bundle bundle = getArguments();
+        if (bundle != null){
+            loadMovie(bundle.putParcelable(DetailFragment.EXTRA_MOVIE, mMovie));
+
+        }
+
+    }
     public void loadMovie(final Movie movie) {
 
         average.setText(movie.getAverage());

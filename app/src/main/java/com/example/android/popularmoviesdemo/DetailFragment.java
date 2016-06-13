@@ -51,8 +51,18 @@ public class DetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+
+
         if (getActivity().getIntent().hasExtra(EXTRA_MOVIE)) {
             mMovie = getActivity().getIntent().getParcelableExtra(EXTRA_MOVIE);
+            Bundle extras = getArguments();
+
+        }else {
+            Bundle bundle = getArguments();
+               if (bundle != null) {
+                loadMovie(mMovie);
+            }
+
         }
         final Context context = this.getActivity();
 
@@ -66,17 +76,11 @@ public class DetailFragment extends Fragment {
         favoriteCheckBox = (CheckBox) rootview.findViewById(R.id.favoriteCheckBox);
 
         Button button = (Button) rootview.findViewById(R.id.Trailer);
-        Button button1 = (Button) rootview.findViewById(R.id.Review);
+        final Button button1 = (Button) rootview.findViewById(R.id.Review);
 
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
-                int id = getView().getId();
-                if (id == R.id.Trailer){
-                    LaunchTrailer(null);
-                }else if (id == R.id.Review){
-                    LaunchReview(null);
-                }
+                LaunchTrailer(null);
             }
         });
 
@@ -84,18 +88,20 @@ public class DetailFragment extends Fragment {
 
         return rootview;
     }
-    public void onViewCreated (View view, Bundle savedInstanceState){
-            super.onViewCreated(view, savedInstanceState);
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         Bundle bundle = getArguments();
-        if (bundle != null){
-            loadMovie(bundle.putParcelable(DetailFragment.EXTRA_MOVIE, mMovie));
-
+        if (bundle != null) {
+            loadMovie(mMovie);
         }
-
     }
     public void loadMovie(final Movie movie) {
 
+        if (movie != null) {
+            average.setText(movie.getAverage());
+        }
         average.setText(movie.getAverage());
         date.setText(movie.getDate());
         title.setText(movie.getTitle());
@@ -117,17 +123,6 @@ public class DetailFragment extends Fragment {
                 .load(movie.getPoster())
                 .into(poster);
     }
-    //  @Override
-    //  public boolean onOptionsItemSelected(MenuItem item) {
-    //      int id = item.getItemId();
-    //      if (id == R.id.Trailer) {
-    //          LaunchTrailer(null);
-    //      } else if (id == R.id.Review) {
-    //          LaunchReview(null);
-    //          return true;
-    //      }
-    //      return super.onOptionsItemSelected(item);
-    //  }
 
     public void LaunchTrailer(View view) {
         final RestAdapter restAdapter = new RestAdapter.Builder()
@@ -173,14 +168,12 @@ public class DetailFragment extends Fragment {
                     e.printStackTrace();
                 }
             }
-
             @Override
             public void failure(RetrofitError error) {
                 error.printStackTrace();
             }
         });
     }
-
     public void LaunchReview(View view) {
         final RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://api.themoviedb.org/3")
@@ -228,7 +221,6 @@ public class DetailFragment extends Fragment {
                     e.printStackTrace();
                 }
             }
-
             @Override
             public void failure(RetrofitError error) {
             }

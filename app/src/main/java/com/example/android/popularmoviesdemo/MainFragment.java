@@ -1,12 +1,14 @@
 package com.example.android.popularmoviesdemo;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -29,6 +31,7 @@ import retrofit.client.Response;
 
 public class MainFragment extends Fragment {
 
+    private static AppCompatActivity mActivity;
     private static final String DETAILFRAGMENT_TAG = "DFTAG";
     private RecyclerView mRecyclerView;
     private MoviesAdapter mAdapter;
@@ -162,12 +165,12 @@ public class MainFragment extends Fragment {
 
                  Bundle args = new Bundle();
                  int position;
-                 position = 0;
+                 position = viewHolder.getAdapterPosition();
                  args.putParcelable(DetailFragment.EXTRA_MOVIE, mMovieList.get(position));
                  DetailFragment fragment = new DetailFragment();
                  fragment.setArguments(args);
 
-                 FragmentActivity mActivity = new FragmentActivity();
+
                  mActivity.getSupportFragmentManager().beginTransaction()
                          .replace(R.id.movie_detail_container, fragment, DETAILFRAGMENT_TAG)
                          .commit();
@@ -210,6 +213,10 @@ public class MainFragment extends Fragment {
             notifyDataSetChanged();
         }
     }
+       @Override
+       public void onAttach (Activity activity) {
+           super.onAttach(activity);
+           mActivity = (AppCompatActivity) activity;
+       }
 }
-
 

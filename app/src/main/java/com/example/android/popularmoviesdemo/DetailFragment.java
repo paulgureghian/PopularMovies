@@ -51,18 +51,9 @@ public class DetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
-
-        if (getActivity().getIntent().hasExtra(EXTRA_MOVIE)) {
-            mMovie = getActivity().getIntent().getParcelableExtra(EXTRA_MOVIE);
-            Bundle extras = getArguments();
-
-        }else {
-            Bundle bundle = getArguments();
-               if (bundle != null) {
-                loadMovie(mMovie);
-            }
-
+        Bundle arguments = getArguments();
+        if (arguments != null){
+            mMovie = arguments.getParcelable(DetailFragment.EXTRA_MOVIE);
         }
         final Context context = this.getActivity();
 
@@ -83,25 +74,11 @@ public class DetailFragment extends Fragment {
                 LaunchTrailer(null);
             }
         });
-
-        loadMovie(mMovie);
-
         return rootview;
     }
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
 
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            loadMovie(mMovie);
-        }
-    }
     public void loadMovie(final Movie movie) {
 
-        if (movie != null) {
-            average.setText(movie.getAverage());
-        }
         average.setText(movie.getAverage());
         date.setText(movie.getDate());
         title.setText(movie.getTitle());
@@ -123,7 +100,6 @@ public class DetailFragment extends Fragment {
                 .load(movie.getPoster())
                 .into(poster);
     }
-
     public void LaunchTrailer(View view) {
         final RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://api.themoviedb.org/3")

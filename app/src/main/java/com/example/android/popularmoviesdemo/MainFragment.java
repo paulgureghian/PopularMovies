@@ -1,6 +1,5 @@
 package com.example.android.popularmoviesdemo;
 
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;

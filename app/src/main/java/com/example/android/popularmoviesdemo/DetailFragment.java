@@ -52,7 +52,7 @@ public class DetailFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         Bundle arguments = getArguments();
-        if (arguments != null){
+        if (arguments != null) {
             mMovie = arguments.getParcelable(DetailFragment.EXTRA_MOVIE);
         }
         final Context context = this.getActivity();
@@ -66,143 +66,148 @@ public class DetailFragment extends Fragment {
         poster = (ImageView) rootview.findViewById(R.id.movie_poster);
         favoriteCheckBox = (CheckBox) rootview.findViewById(R.id.favoriteCheckBox);
 
+        return rootview;
+
         Button button = (Button) rootview.findViewById(R.id.Trailer);
         final Button button1 = (Button) rootview.findViewById(R.id.Review);
 
         button.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
                 LaunchTrailer(null);
-            }
-        });
-        return rootview;
-    }
 
-    public void loadMovie(final Movie movie) {
-
-        average.setText(movie.getAverage());
-        date.setText(movie.getDate());
-        title.setText(movie.getTitle());
-        description.setText(movie.getDescription());
-
-        favoriteCheckBox.setChecked(SharedPreferenceUtils.isFavorite(this.getActivity(), movie.getId()));
-
-        favoriteCheckBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (SharedPreferenceUtils.isFavorite(getActivity(), movie.getId())) {
-                    SharedPreferenceUtils.removeFavorite(getActivity(), movie);
-                } else {
-                    SharedPreferenceUtils.addFavorite(getContext(), movie);
-                }
-            }
-        });
-        Picasso.with(this.getActivity())
-                .load(movie.getPoster())
-                .into(poster);
-    }
-    public void LaunchTrailer(View view) {
-        final RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint("http://api.themoviedb.org/3")
-                .setRequestInterceptor(new RequestInterceptor() {
+                button1.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void intercept(RequestFacade request) {
-                        request.addEncodedQueryParam("api_key", BuildConfig.TMDB_API_KEY);
+                    public void onClick(View v) {
+                        LaunchReview(null);
                     }
-                })
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .build();
-        MovieTrailerEndpoint service = restAdapter.create(MovieTrailerEndpoint.class);
-        service.LaunchTrailer(mMovie.getId(), new Callback<Movie.MovieResult>() {
-            @Override
-            public void success(Movie.MovieResult movieResult, Response response) {
-                BufferedReader reader = null;
-                StringBuilder sb = new StringBuilder();
-                try {
-                    reader = new BufferedReader(new InputStreamReader(response.getBody().in()));
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        sb.append(line);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                String result = sb.toString();
-                try {
-                    JSONObject root = new JSONObject(result);
-                    String youTubeKey = root.getJSONArray("results").getJSONObject(0).getString("key");
-                    Uri.Builder builder = new Uri.Builder();
-                    String url = builder
-                            .path("https://www.youtube.com")
-                            .appendPath("watch")
-                            .appendQueryParameter("v", youTubeKey)
-                            .build().toString();
-                    Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse("https://www.youtube.com/watch?v=" + youTubeKey));
-                    startActivity(i);
+                });
+            }
+            public void loadMovie(final Movie movie) {
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-            @Override
-            public void failure(RetrofitError error) {
-                error.printStackTrace();
-            }
-        });
-    }
-    public void LaunchReview(View view) {
-        final RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint("http://api.themoviedb.org/3")
-                .setRequestInterceptor(new RequestInterceptor() {
+                average.setText(movie.getAverage());
+                date.setText(movie.getDate());
+                title.setText(movie.getTitle());
+                description.setText(movie.getDescription());
+
+                favoriteCheckBox.setChecked(SharedPreferenceUtils.isFavorite(this.getActivity(), movie.getId()));
+
+                favoriteCheckBox.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void intercept(RequestFacade request) {
-                        request.addEncodedQueryParam("api_key", BuildConfig.TMDB_API_KEY);
+                    public void onClick(View v) {
+                        if (SharedPreferenceUtils.isFavorite(getActivity(), movie.getId())) {
+                            SharedPreferenceUtils.removeFavorite(getActivity(), movie);
+                        } else {
+                            SharedPreferenceUtils.addFavorite(getContext(), movie);
+                        }
                     }
-                })
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .build();
-        MovieReviewEndpoint service = restAdapter.create(MovieReviewEndpoint.class);
-        service.LaunchReview(mMovie.getId(), new Callback<Movie.MovieResult>() {
-            @Override
-            public void success(Movie.MovieResult movieResult, Response response) {
-                BufferedReader reader = null;
-                StringBuilder sb = new StringBuilder();
-                try {
-                    reader = new BufferedReader(new InputStreamReader(response.getBody().in()));
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        sb.append(line);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                String result = sb.toString();
-                try {
-                    JSONObject root = new JSONObject(result);
-                    JSONArray array = root.getJSONArray("results");
-
-                    for (int i = 0; i < array.length(); i++) {
-                        String author = array.getJSONObject(i)
-                                .getString("author");
-                        String content = array.getJSONObject(i)
-                                .getString("content");
-                        Review review = new Review(author, content);
-                        mMovie.putReview(review);
-                    }
-                    Intent intent = new Intent(getActivity(), ReviewActivity.class);
-                    intent.putParcelableArrayListExtra("reviews", mMovie.getReviews());
-                    startActivity(intent);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                });
+                Picasso.with(this.getActivity())
+                        .load(movie.getPoster())
+                        .into(poster);
             }
-            @Override
-            public void failure(RetrofitError error) {
+            public void LaunchTrailer(View view) {
+                final RestAdapter restAdapter = new RestAdapter.Builder()
+                        .setEndpoint("http://api.themoviedb.org/3")
+                        .setRequestInterceptor(new RequestInterceptor() {
+                            @Override
+                            public void intercept(RequestFacade request) {
+                                request.addEncodedQueryParam("api_key", BuildConfig.TMDB_API_KEY);
+                            }
+                        })
+                        .setLogLevel(RestAdapter.LogLevel.FULL)
+                        .build();
+                MovieTrailerEndpoint service = restAdapter.create(MovieTrailerEndpoint.class);
+                service.LaunchTrailer(mMovie.getId(), new Callback<Movie.MovieResult>() {
+                    @Override
+                    public void success(Movie.MovieResult movieResult, Response response) {
+                        BufferedReader reader = null;
+                        StringBuilder sb = new StringBuilder();
+                        try {
+                            reader = new BufferedReader(new InputStreamReader(response.getBody().in()));
+                            String line;
+                            while ((line = reader.readLine()) != null) {
+                                sb.append(line);
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        String result = sb.toString();
+                        try {
+                            JSONObject root = new JSONObject(result);
+                            String youTubeKey = root.getJSONArray("results").getJSONObject(0).getString("key");
+                            Uri.Builder builder = new Uri.Builder();
+                            String url = builder
+                                    .path("https://www.youtube.com")
+                                    .appendPath("watch")
+                                    .appendQueryParameter("v", youTubeKey)
+                                    .build().toString();
+                            Intent i = new Intent(Intent.ACTION_VIEW);
+                            i.setData(Uri.parse("https://www.youtube.com/watch?v=" + youTubeKey));
+                            startActivity(i);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    @Override
+                    public void failure(RetrofitError error) {
+                        error.printStackTrace();
+                    }
+                });
+            }
+            public void LaunchReview(View view) {
+                final RestAdapter restAdapter = new RestAdapter.Builder()
+                        .setEndpoint("http://api.themoviedb.org/3")
+                        .setRequestInterceptor(new RequestInterceptor() {
+                            @Override
+                            public void intercept(RequestFacade request) {
+                                request.addEncodedQueryParam("api_key", BuildConfig.TMDB_API_KEY);
+                            }
+                        })
+                        .setLogLevel(RestAdapter.LogLevel.FULL)
+                        .build();
+                MovieReviewEndpoint service = restAdapter.create(MovieReviewEndpoint.class);
+                service.LaunchReview(mMovie.getId(), new Callback<Movie.MovieResult>() {
+                    @Override
+                    public void success(Movie.MovieResult movieResult, Response response) {
+                        BufferedReader reader = null;
+                        StringBuilder sb = new StringBuilder();
+                        try {
+                            reader = new BufferedReader(new InputStreamReader(response.getBody().in()));
+                            String line;
+                            while ((line = reader.readLine()) != null) {
+                                sb.append(line);
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        String result = sb.toString();
+                        try {
+                            JSONObject root = new JSONObject(result);
+                            JSONArray array = root.getJSONArray("results");
+
+                            for (int i = 0; i < array.length(); i++) {
+                                String author = array.getJSONObject(i)
+                                        .getString("author");
+                                String content = array.getJSONObject(i)
+                                        .getString("content");
+                                Review review = new Review(author, content);
+                                mMovie.putReview(review);
+                            }
+                            Intent intent = new Intent(getActivity(), ReviewActivity.class);
+                            intent.putParcelableArrayListExtra("reviews", mMovie.getReviews());
+                            startActivity(intent);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    @Override
+                    public void failure(RetrofitError error) {
+                    }
+                });
             }
         });
     }
 }
-
-
-

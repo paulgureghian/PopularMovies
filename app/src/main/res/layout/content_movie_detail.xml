@@ -47,16 +47,16 @@
                 android:id="@+id/Trailer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="120dp"
-                android:paddingRight="120dp"
+                android:paddingLeft="73dp"
+                android:paddingRight="73dp"
                 android:text="Trailer"/>
 
             <Button
                 android:id="@+id/Review"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="120dp"
-                android:paddingRight="134dp"
+                android:paddingLeft="73dp"
+                android:paddingRight="73dp"
                 android:text="Review"
                 android:layout_toEndOf="@+id/Trailer"/>
 

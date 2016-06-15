@@ -43,6 +43,8 @@ public class DetailFragment extends Fragment {
     TextView description;
     CheckBox favoriteCheckBox;
     SharedPreferenceUtils sharedPreferenceUtils = new SharedPreferenceUtils();
+    private Button button;
+    private Button button2;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,21 +55,22 @@ public class DetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        Bundle arguments = getArguments();
+        private void retrieveMovieParcelable() {
+            Bundle arguments = getArguments();
 
-        if (arguments != null) {
-            mMovie = arguments.getParcelable(DetailFragment.EXTRA_MOVIE);
-
-        } else {
-            Bundle bundle = getArguments();
-
-
+            if (arguments != null) {
+                mMovie = arguments.getParcelable(EXTRA_MOVIE);
+            } else {
+                if (getActivity().getIntent().hasExtra(EXTRA_MOVIE)) {
+                    mMovie = getActivity().getIntent().getParcelableExtra(EXTRA_MOVIE);
+                }
+            }
         }
+    }
 
+    private void findViewsByIds(View rootview) {
 
-        final Context context = this.getActivity();
-
-        View rootview = inflater.inflate(R.layout.content_movie_detail, container, false);
+        rootview = inflater.inflate(R.layout.content_movie_detail, container, false);
 
         average = (TextView) rootview.findViewById(R.id.vote_average);
         date = (TextView) rootview.findViewById(R.id.release_date);
@@ -76,64 +79,54 @@ public class DetailFragment extends Fragment {
         poster = (ImageView) rootview.findViewById(R.id.movie_poster);
         favoriteCheckBox = (CheckBox) rootview.findViewById(R.id.favoriteCheckBox);
 
-
         return rootview;
-
-
     }
 
+    public void loadMovie(final Movie movie) {
 
-    public void onTrailerButtonClick() {
-        Button button = (Button) getView().findViewById(R.id.Trailer);
+        if (movie != null) {
 
+            average.setText(movie.getAverage());
+            date.setText(movie.getDate());
+            title.setText(movie.getTitle());
+            description.setText(movie.getDescription());
+
+            favoriteCheckBox.setChecked(SharedPreferenceUtils.isFavorite(getActivity(), movie.getId()));
+
+            favoriteCheckBox.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (SharedPreferenceUtils.isFavorite(getActivity(), movie.getId())) {
+                        SharedPreferenceUtils.removeFavorite(getActivity(), movie);
+                    } else {
+                        SharedPreferenceUtils.addFavorite(getContext(), movie);
+                    }
+                }
+            });
+            Picasso.with(getActivity())
+                    .load(movie.getPoster())
+                    .into(poster);
+        }
+    }
+
+    private void onClickListener() {
+        button.getRootView().findViewById(R.id.Trailer);
         button.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onClick(View v) {
-
+            public void onClick(View view) {
+                LaunchTrailer(null);
             }
 
-            public void LaunchTrailer() {
-            }
+            private void onClickListener() {
+                button2.getRootView().findViewById(R.id.Review);
+                button2.setOnClickListener(new View.OnClickListener() {
 
-            public void onReviewButtonClick() {
-                Button button1 = (Button) getView().findViewById(R.id.Review);
-
-                button1.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
-
+                    public void onClick(View view) {
+                        LaunchReview(null);
                     }
 
-                    public void LaunchReview() {
-                    }
-
-
-                    public void loadMovie(final Movie movie) {
-
-                        if (movie != null) {
-
-                            average.setText(movie.getAverage());
-                            date.setText(movie.getDate());
-                            title.setText(movie.getTitle());
-                            description.setText(movie.getDescription());
-
-                            favoriteCheckBox.setChecked(SharedPreferenceUtils.isFavorite(getActivity(), movie.getId()));
-
-                            favoriteCheckBox.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    if (SharedPreferenceUtils.isFavorite(getActivity(), movie.getId())) {
-                                        SharedPreferenceUtils.removeFavorite(getActivity(), movie);
-                                    } else {
-                                        SharedPreferenceUtils.addFavorite(getContext(), movie);
-                                    }
-                                }
-                            });
-                            Picasso.with(getActivity())
-                                    .load(movie.getPoster())
-                                    .into(poster);
-                        }
-                    }
 
                     public void LaunchTrailer(View view) {
                         final RestAdapter restAdapter = new RestAdapter.Builder()
@@ -240,15 +233,18 @@ public class DetailFragment extends Fragment {
                             }
                         });
                     }
-
                 });
             }
         });
-
-
-    }
-
+    };
 }
+
+
+
+
+
+
+
 
 
 

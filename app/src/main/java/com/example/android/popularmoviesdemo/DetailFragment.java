@@ -32,6 +32,8 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class DetailFragment extends Fragment {
+
+    static final String DETAIL_URI = "URI";
     public static final String EXTRA_MOVIE = "movie";
     Movie mMovie;
     ImageView poster;
@@ -52,9 +54,17 @@ public class DetailFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         Bundle arguments = getArguments();
+
         if (arguments != null) {
             mMovie = arguments.getParcelable(DetailFragment.EXTRA_MOVIE);
+
+        } else {
+            Bundle bundle = getArguments();
+
+
         }
+
+
         final Context context = this.getActivity();
 
         View rootview = inflater.inflate(R.layout.content_movie_detail, container, false);
@@ -66,48 +76,63 @@ public class DetailFragment extends Fragment {
         poster = (ImageView) rootview.findViewById(R.id.movie_poster);
         favoriteCheckBox = (CheckBox) rootview.findViewById(R.id.favoriteCheckBox);
 
+
         return rootview;
+
 
     }
 
-    public void onButtonClick(View view) {
+
+    public void onTrailerButtonClick() {
         Button button = (Button) getView().findViewById(R.id.Trailer);
-        final Button button1 = (Button) getView().findViewById(R.id.Review);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LaunchTrailer(null);
+
+            }
+
+            public void LaunchTrailer() {
+            }
+
+            public void onReviewButtonClick() {
+                Button button1 = (Button) getView().findViewById(R.id.Review);
 
                 button1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        LaunchReview(null);
+
+                    }
+
+                    public void LaunchReview() {
                     }
 
 
                     public void loadMovie(final Movie movie) {
 
-                        average.setText(movie.getAverage());
-                        date.setText(movie.getDate());
-                        title.setText(movie.getTitle());
-                        description.setText(movie.getDescription());
+                        if (movie != null) {
 
-                        favoriteCheckBox.setChecked(SharedPreferenceUtils.isFavorite(getActivity(), movie.getId()));
+                            average.setText(movie.getAverage());
+                            date.setText(movie.getDate());
+                            title.setText(movie.getTitle());
+                            description.setText(movie.getDescription());
 
-                        favoriteCheckBox.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if (SharedPreferenceUtils.isFavorite(getActivity(), movie.getId())) {
-                                    SharedPreferenceUtils.removeFavorite(getActivity(), movie);
-                                } else {
-                                    SharedPreferenceUtils.addFavorite(getContext(), movie);
+                            favoriteCheckBox.setChecked(SharedPreferenceUtils.isFavorite(getActivity(), movie.getId()));
+
+                            favoriteCheckBox.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (SharedPreferenceUtils.isFavorite(getActivity(), movie.getId())) {
+                                        SharedPreferenceUtils.removeFavorite(getActivity(), movie);
+                                    } else {
+                                        SharedPreferenceUtils.addFavorite(getContext(), movie);
+                                    }
                                 }
-                            }
-                        });
-                        Picasso.with(getActivity())
-                                .load(movie.getPoster())
-                                .into(poster);
+                            });
+                            Picasso.with(getActivity())
+                                    .load(movie.getPoster())
+                                    .into(poster);
+                        }
                     }
 
                     public void LaunchTrailer(View view) {
@@ -215,16 +240,19 @@ public class DetailFragment extends Fragment {
                             }
                         });
                     }
+
                 });
-
             }
-
-
         });
+
+
     }
 
-
 }
+
+
+
+
 
 
 

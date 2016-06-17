@@ -42,20 +42,13 @@ public class MainFragment extends Fragment {
 
         mAdapter = new MoviesAdapter(getContext());
 
-        List<Movie> movies = new ArrayList<>();
-
-        for (int i = 0; i < 25; i++) {
-            movies.add(new Movie());
-        }
-        mAdapter.setMovieList(movies);
-
         sortType = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(getResources().getString(R.string.pref_sort_key),
                 getResources().getString(R.string.pref_sort_most_popular));
         if (sortType.equals(getResources().getString(R.string.pref_sort_most_popular))) {
             getPopularMovies();
         } else if (sortType.equals(getResources().getString(R.string.pref_sort_top_rated))) {
             getTopRatedMovies();
-        } else if (sortType.equals("Favorites")) {
+        } else if (sortType.equals(getResources().getString(R.string.pref_sort_favorites))) {
             loadFavoriteMovies();
         }
     }
@@ -63,7 +56,6 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         mRecyclerView.setAdapter(mAdapter);
@@ -106,6 +98,7 @@ public class MainFragment extends Fragment {
             public void success(Movie.MovieResult movieResult, Response response) {
                 mAdapter.setMovieList(movieResult.getResults());
             }
+
             @Override
             public void failure(RetrofitError error) {
                 error.printStackTrace();
@@ -129,13 +122,14 @@ public class MainFragment extends Fragment {
             public void success(Movie.MovieResult movieResult, Response response) {
                 mAdapter.setMovieList(movieResult.getResults());
             }
+
             @Override
             public void failure(RetrofitError error) {
                 error.printStackTrace();
             }
         });
     }
-    public static   class MovieViewHolder extends RecyclerView.ViewHolder {
+    public static class MovieViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
 
         public MovieViewHolder(View itemView) {
@@ -143,7 +137,7 @@ public class MainFragment extends Fragment {
             imageView = (ImageView) itemView.findViewById(R.id.imageView);
         }
     }
-    public static   class MoviesAdapter extends RecyclerView.Adapter<MovieViewHolder> {
+    public static class MoviesAdapter extends RecyclerView.Adapter<MovieViewHolder> {
         private List<Movie> mMovieList;
         private LayoutInflater mInflater;
         private Context mContext;
@@ -160,35 +154,28 @@ public class MainFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
 
-             if (MainActivity.mTwoPane){
+                    if (MainActivity.mTwoPane) {
 
-                 Bundle args = new Bundle();
-                 int position;
-                 position = viewHolder.getAdapterPosition();
-                 args.putParcelable(DetailFragment.EXTRA_MOVIE, mMovieList.get(position));
-                 DetailFragment fragment = new DetailFragment();
-                 fragment.setArguments(args);
+                        Bundle args = new Bundle();
+                        int position;
+                        position = viewHolder.getAdapterPosition();
+                        args.putParcelable(DetailFragment.EXTRA_MOVIE, mMovieList.get(position));
+                        DetailFragment fragment = new DetailFragment();
+                        fragment.setArguments(args);
 
+                        mActivity.getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.movie_detail_container, fragment, DETAILFRAGMENT_TAG)
+                                .commit();
 
-                 mActivity.getSupportFragmentManager().beginTransaction()
-                         .replace(R.id.movie_detail_container, fragment, DETAILFRAGMENT_TAG)
-                         .commit();
+                        Log.i("MainFrag", "tablet");
 
-                 Log.i("MainFrag", "tablet");
+                    } else {
+                        int position = viewHolder.getAdapterPosition();
+                        Intent intent = new Intent(mContext, MovieDetailActivity.class);
+                        intent.putExtra(DetailFragment.EXTRA_MOVIE, mMovieList.get(position));
+                        mContext.startActivity(intent);
 
-             }else {
-                 int position = viewHolder.getAdapterPosition();
-                 Intent intent = new Intent(mContext, MovieDetailActivity.class);
-                 intent.putExtra(DetailFragment.EXTRA_MOVIE, mMovieList.get(position));
-                 mContext.startActivity(intent);
-             }
-
-
-
-
-
-
-
+                    }
                 }
             });
             return viewHolder;
@@ -212,10 +199,10 @@ public class MainFragment extends Fragment {
             notifyDataSetChanged();
         }
     }
-       @Override
-       public void onAttach (Activity activity) {
-           super.onAttach(activity);
-           mActivity = (AppCompatActivity) activity;
-       }
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mActivity = (AppCompatActivity) activity;
+    }
 }
 

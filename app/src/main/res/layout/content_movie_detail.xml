@@ -49,6 +49,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="73dp"
                 android:paddingRight="73dp"
+                android:visibility="gone"
                 android:text="Trailer"/>
 
             <Button
@@ -58,6 +59,7 @@
                 android:paddingLeft="73dp"
                 android:paddingRight="73dp"
                 android:text="Review"
+                android:visibility="gone"
                 android:layout_toEndOf="@+id/Trailer"/>
 
             <CheckBox
@@ -65,6 +67,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_below="@id/Trailer"
                 android:text="Favorite"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

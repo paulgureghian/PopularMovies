@@ -83,37 +83,40 @@ public class DetailFragment extends Fragment {
     private void retrieveMovieParcelable() {
         Bundle arguments = getArguments();
 
-        if (arguments != null) {
-            mMovie = arguments.getParcelable(EXTRA_MOVIE);
+        if (mMovie != null) {
+
+            loadMovieDetails(getArguments());
+
+            //mMovie = arguments.getParcelable(EXTRA_MOVIE);
         } else {
             if (getActivity().getIntent().hasExtra(EXTRA_MOVIE)) {
                 mMovie = getActivity().getIntent().getParcelableExtra(EXTRA_MOVIE);
             }
         }
     }
-    public void loadMovie(final Movie movie) {
+    public void loadMovieDetails (final Movie movie) {
 
-        if (movie != null) {
+        if (mMovie != null) {
 
-            average.setText(movie.getAverage());
-            date.setText(movie.getDate());
-            title.setText(movie.getTitle());
-            description.setText(movie.getDescription());
+            average.setText(mMovie.getAverage());
+            date.setText(mMovie.getDate());
+            title.setText(mMovie.getTitle());
+            description.setText(mMovie.getDescription());
 
-            favoriteCheckBox.setChecked(SharedPreferenceUtils.isFavorite(getActivity(), movie.getId()));
+            favoriteCheckBox.setChecked(SharedPreferenceUtils.isFavorite(getActivity(), mMovie.getId()));
 
             favoriteCheckBox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (SharedPreferenceUtils.isFavorite(getActivity(), movie.getId())) {
-                        SharedPreferenceUtils.removeFavorite(getActivity(), movie);
+                    if (SharedPreferenceUtils.isFavorite(getActivity(), mMovie.getId())) {
+                        SharedPreferenceUtils.removeFavorite(getActivity(), mMovie);
                     } else {
-                        SharedPreferenceUtils.addFavorite(getContext(), movie);
+                        SharedPreferenceUtils.addFavorite(getContext(), mMovie);
                     }
                 }
             });
             Picasso.with(getActivity())
-                    .load(movie.getPoster())
+                    .load(mMovie.getPoster())
                     .into(poster);
         }
     }

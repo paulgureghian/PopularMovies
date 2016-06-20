@@ -82,12 +82,14 @@ public class DetailFragment extends Fragment {
     }
     private void retrieveMovieParcelable() {
         Bundle arguments = getArguments();
+        arguments.getParcelable(DetailFragment.EXTRA_MOVIE);
+        mMovie = arguments.getParcelable(EXTRA_MOVIE);
 
         if (mMovie != null) {
 
-            loadMovieDetails(getArguments());
+            loadMovieDetails(mMovie);
 
-            //mMovie = arguments.getParcelable(EXTRA_MOVIE);
+
         } else {
             if (getActivity().getIntent().hasExtra(EXTRA_MOVIE)) {
                 mMovie = getActivity().getIntent().getParcelableExtra(EXTRA_MOVIE);
@@ -96,7 +98,7 @@ public class DetailFragment extends Fragment {
     }
     public void loadMovieDetails (final Movie movie) {
 
-        if (mMovie != null) {
+      //  if (mMovie != null) {
 
             average.setText(mMovie.getAverage());
             date.setText(mMovie.getDate());
@@ -119,7 +121,7 @@ public class DetailFragment extends Fragment {
                     .load(mMovie.getPoster())
                     .into(poster);
         }
-    }
+  //  }
     public void LaunchTrailer(View view) {
         final RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://api.themoviedb.org/3")

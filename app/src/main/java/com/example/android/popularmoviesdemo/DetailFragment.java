@@ -48,6 +48,15 @@ public class DetailFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            retrieveMovieParcelable();
+        }
+
+
+
+
         super.onCreate(savedInstanceState);
     }
 
@@ -89,39 +98,35 @@ public class DetailFragment extends Fragment {
 
             loadMovieDetails(mMovie);
 
-
         } else {
             if (getActivity().getIntent().hasExtra(EXTRA_MOVIE)) {
                 mMovie = getActivity().getIntent().getParcelableExtra(EXTRA_MOVIE);
             }
         }
     }
-    public void loadMovieDetails (final Movie movie) {
+    public void loadMovieDetails(final Movie movie) {
 
-      //  if (mMovie != null) {
+        average.setText(mMovie.getAverage());
+        date.setText(mMovie.getDate());
+        title.setText(mMovie.getTitle());
+        description.setText(mMovie.getDescription());
 
-            average.setText(mMovie.getAverage());
-            date.setText(mMovie.getDate());
-            title.setText(mMovie.getTitle());
-            description.setText(mMovie.getDescription());
+        favoriteCheckBox.setChecked(SharedPreferenceUtils.isFavorite(getActivity(), mMovie.getId()));
 
-            favoriteCheckBox.setChecked(SharedPreferenceUtils.isFavorite(getActivity(), mMovie.getId()));
-
-            favoriteCheckBox.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (SharedPreferenceUtils.isFavorite(getActivity(), mMovie.getId())) {
-                        SharedPreferenceUtils.removeFavorite(getActivity(), mMovie);
-                    } else {
-                        SharedPreferenceUtils.addFavorite(getContext(), mMovie);
-                    }
+        favoriteCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (SharedPreferenceUtils.isFavorite(getActivity(), mMovie.getId())) {
+                    SharedPreferenceUtils.removeFavorite(getActivity(), mMovie);
+                } else {
+                    SharedPreferenceUtils.addFavorite(getContext(), mMovie);
                 }
-            });
-            Picasso.with(getActivity())
-                    .load(mMovie.getPoster())
-                    .into(poster);
-        }
-  //  }
+            }
+        });
+        Picasso.with(getActivity())
+                .load(mMovie.getPoster())
+                .into(poster);
+    }
     public void LaunchTrailer(View view) {
         final RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://api.themoviedb.org/3")

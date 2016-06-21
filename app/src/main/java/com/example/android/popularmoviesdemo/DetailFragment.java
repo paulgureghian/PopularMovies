@@ -51,7 +51,6 @@ public class DetailFragment extends Fragment {
 
         super.onCreate(savedInstanceState);
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -81,17 +80,12 @@ public class DetailFragment extends Fragment {
         });
         Bundle arguments = getArguments();
 
-
         if (arguments != null) {
 
-
             retrieveMovieParcelable();
-
         }
-
-            return rootview;
-        }
-
+        return rootview;
+    }
     private void retrieveMovieParcelable() {
         Bundle arguments = getArguments();
         arguments.getParcelable(DetailFragment.EXTRA_MOVIE);
@@ -107,7 +101,6 @@ public class DetailFragment extends Fragment {
             }
         }
     }
-
     public void loadMovieDetails(final Movie movie) {
 
         average.setText(mMovie.getAverage());
@@ -131,7 +124,6 @@ public class DetailFragment extends Fragment {
                 .load(mMovie.getPoster())
                 .into(poster);
     }
-
     public void LaunchTrailer(View view) {
         final RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://api.themoviedb.org/3")
@@ -176,14 +168,12 @@ public class DetailFragment extends Fragment {
                     e.printStackTrace();
                 }
             }
-
             @Override
             public void failure(RetrofitError error) {
                 error.printStackTrace();
             }
         });
     }
-
     public void LaunchReview(View view) {
         final RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://api.themoviedb.org/3")
@@ -231,7 +221,6 @@ public class DetailFragment extends Fragment {
                     e.printStackTrace();
                 }
             }
-
             @Override
             public void failure(RetrofitError error) {
             }

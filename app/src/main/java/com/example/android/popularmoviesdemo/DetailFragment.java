@@ -49,14 +49,6 @@ public class DetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
-        Bundle arguments = getArguments();
-        if (arguments != null) {
-            retrieveMovieParcelable();
-        }
-
-
-
-
         super.onCreate(savedInstanceState);
     }
 
@@ -87,8 +79,19 @@ public class DetailFragment extends Fragment {
                 LaunchReview(null);
             }
         });
-        return rootview;
-    }
+        Bundle arguments = getArguments();
+
+
+        if (arguments != null) {
+
+
+            retrieveMovieParcelable();
+
+        }
+
+            return rootview;
+        }
+
     private void retrieveMovieParcelable() {
         Bundle arguments = getArguments();
         arguments.getParcelable(DetailFragment.EXTRA_MOVIE);
@@ -104,6 +107,7 @@ public class DetailFragment extends Fragment {
             }
         }
     }
+
     public void loadMovieDetails(final Movie movie) {
 
         average.setText(mMovie.getAverage());
@@ -127,6 +131,7 @@ public class DetailFragment extends Fragment {
                 .load(mMovie.getPoster())
                 .into(poster);
     }
+
     public void LaunchTrailer(View view) {
         final RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://api.themoviedb.org/3")
@@ -171,12 +176,14 @@ public class DetailFragment extends Fragment {
                     e.printStackTrace();
                 }
             }
+
             @Override
             public void failure(RetrofitError error) {
                 error.printStackTrace();
             }
         });
     }
+
     public void LaunchReview(View view) {
         final RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://api.themoviedb.org/3")
@@ -224,6 +231,7 @@ public class DetailFragment extends Fragment {
                     e.printStackTrace();
                 }
             }
+
             @Override
             public void failure(RetrofitError error) {
             }

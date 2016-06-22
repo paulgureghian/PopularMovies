@@ -16,7 +16,13 @@
     <string name="pref_sort_label_most_popular">Most Popular</string>
     <string name="pref_sort_label_favorites">Favorites</string>
     <string name="pref_sort_label">Sort By</string>
+    <string name="trailer_button">Trailer</string>
+    <string name="review_button">Review</string>
+    <string name="favorite_checkbox">Favorite</string>
+
     <string name="large_text">
+
+
 
     </string>
     <string name="title_activity_settings">Settings</string>

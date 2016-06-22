@@ -2,12 +2,12 @@
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/movie_detail_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".MovieDetailActivity"
-    tools:showIn="@layout/activity_movie_detail"
-    android:id="@+id/movie_detail_container">
+    tools:showIn="@layout/activity_movie_detail">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,13 +25,13 @@
             android:id="@+id/release_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="0dp"/>
+            android:padding="0dp" />
 
         <TextView
             android:id="@+id/vote_average"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="0dp"/>
+            android:padding="0dp" />
 
         <TextView
             android:id="@+id/movie_description"
@@ -49,27 +49,34 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="73dp"
                 android:paddingRight="73dp"
-                android:visibility="visible"
-                android:text="Trailer"/>
+                android:text="@string/trailer_button"
+                android:visibility="invisible" />
 
             <Button
                 android:id="@+id/Review"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/Trailer"
                 android:paddingLeft="73dp"
                 android:paddingRight="73dp"
-                android:text="Review"
-                android:visibility="visible"
-                android:layout_toEndOf="@+id/Trailer"/>
+                android:text="@string/review_button"
+                android:visibility="invisible" />
 
             <CheckBox
                 android:id="@+id/favoriteCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_below="@id/Trailer"
-                android:text="Favorite"
-                android:visibility="visible"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:text="@string/favorite_checkbox"
+                android:visibility="invisible" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="No Movie Selected"
+                android:textSize="45sp"
+                android:visibility="visible"/>
 
         </RelativeLayout>
 
@@ -77,7 +84,7 @@
             android:id="@+id/movie_poster"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:adjustViewBounds="true"/>
+            android:adjustViewBounds="true" />
 
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

@@ -78,6 +78,7 @@ public class DetailFragment extends Fragment {
                 LaunchReview(null);
             }
         });
+
         Bundle arguments = getArguments();
 
         if (arguments != null) {
@@ -107,6 +108,11 @@ public class DetailFragment extends Fragment {
         date.setText(mMovie.getDate());
         title.setText(mMovie.getTitle());
         description.setText(mMovie.getDescription());
+
+        button.setVisibility(View.VISIBLE);
+        button2.setVisibility(View.VISIBLE);
+
+
 
         favoriteCheckBox.setChecked(SharedPreferenceUtils.isFavorite(getActivity(), mMovie.getId()));
 

@@ -22,7 +22,8 @@ public class ReviewActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         List<Review> reviews = getIntent().getParcelableArrayListExtra("reviews");
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+       // getSupportActionBar().setDisplayShowHomeEnabled(true);
         adapter = new ArrayAdapter<Review> (getApplicationContext(), R.layout.review_container, R.id.review_content_textview, reviews);
 
         mListView = (ListView) findViewById(R.id.listview_review);

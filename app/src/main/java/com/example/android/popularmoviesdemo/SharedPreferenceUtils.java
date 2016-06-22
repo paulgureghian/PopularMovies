@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import com.google.gson.Gson;
 import java.util.Map;
 
-public class SharedPreferenceUtils {
+  public final class SharedPreferenceUtils {
 
     public static final String PREFS_NAME = "prefs";
 

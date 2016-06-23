@@ -41,6 +41,7 @@ public class DetailFragment extends Fragment {
     TextView date;
     TextView title;
     TextView description;
+    TextView info;
     CheckBox favoriteCheckBox;
     SharedPreferenceUtils sharedPreferenceUtils = new SharedPreferenceUtils();
     private Button button;
@@ -65,6 +66,7 @@ public class DetailFragment extends Fragment {
         favoriteCheckBox = (CheckBox) rootview.findViewById(R.id.favoriteCheckBox);
         button = (Button) rootview.findViewById(R.id.Trailer);
         button2 = (Button) rootview.findViewById(R.id.Review);
+        info = (TextView) rootview.findViewById(R.id.info);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,8 +113,8 @@ public class DetailFragment extends Fragment {
 
         button.setVisibility(View.VISIBLE);
         button2.setVisibility(View.VISIBLE);
-
-
+        favoriteCheckBox.setVisibility(View.VISIBLE);
+        info.setVisibility(View.INVISIBLE);
 
         favoriteCheckBox.setChecked(SharedPreferenceUtils.isFavorite(getActivity(), mMovie.getId()));
 

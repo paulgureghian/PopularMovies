@@ -18,9 +18,8 @@ import android.widget.ImageView;
 import com.example.android.popularmoviesdemo.Activities.MainActivity;
 import com.example.android.popularmoviesdemo.Activities.MovieDetailActivity;
 import com.example.android.popularmoviesdemo.BuildConfig;
-import com.example.android.popularmoviesdemo.Endpoints.MoviesApiService;
+import com.example.android.popularmoviesdemo.Endpoints.PopularMovies;
 import com.example.android.popularmoviesdemo.Endpoints.TopRatedEndpoint;
-import com.example.android.popularmoviesdemo.Fragments.DetailFragment;
 import com.example.android.popularmoviesdemo.POJOs.Movie;
 import com.example.android.popularmoviesdemo.R;
 import com.example.android.popularmoviesdemo.Utils.SharedPreferenceUtils;
@@ -100,7 +99,7 @@ public class MainFragment extends Fragment {
                 })
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
-        MoviesApiService service = restAdapter.create(MoviesApiService.class);
+        PopularMovies service = restAdapter.create(PopularMovies.class);
         service.getPopularMovies(new Callback<Movie.MovieResult>() {
             @Override
             public void success(Movie.MovieResult movieResult, Response response) {

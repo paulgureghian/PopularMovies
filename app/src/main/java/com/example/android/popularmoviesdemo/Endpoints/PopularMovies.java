@@ -5,7 +5,7 @@ import com.example.android.popularmoviesdemo.POJOs.Movie;
 import retrofit.Callback;
 import retrofit.http.GET;
 
-public interface MoviesApiService {
+public interface PopularMovies {
     @GET("/movie/popular")
 
     void getPopularMovies(Callback<Movie.MovieResult> cb);

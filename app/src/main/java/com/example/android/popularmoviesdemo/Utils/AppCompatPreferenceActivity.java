@@ -1,4 +1,4 @@
-package com.example.android.popularmoviesdemo;
+package com.example.android.popularmoviesdemo.Utils;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

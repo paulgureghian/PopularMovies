@@ -1,14 +1,14 @@
-package com.example.android.popularmoviesdemo;
+package com.example.android.popularmoviesdemo.Activities;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.util.ArrayList;
+import com.example.android.popularmoviesdemo.POJOs.Review;
+import com.example.android.popularmoviesdemo.R;
+
 import java.util.List;
 
 public class ReviewActivity extends AppCompatActivity {

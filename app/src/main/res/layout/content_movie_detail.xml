@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".MovieDetailActivity"
+    tools:context=".Activities.MovieDetailActivity"
+    android:background="@color/colorAccent"
     tools:showIn="@layout/activity_movie_detail">
 
     <LinearLayout
@@ -49,6 +50,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="73dp"
                 android:paddingRight="73dp"
+                android:layout_marginStart="50dp"
                 android:text="@string/trailer_button"
                 android:visibility="invisible" />
 
@@ -59,6 +61,7 @@
                 android:layout_toEndOf="@+id/Trailer"
                 android:paddingLeft="73dp"
                 android:paddingRight="73dp"
+                android:layout_marginEnd="50dp"
                 android:text="@string/review_button"
                 android:visibility="invisible" />
 
@@ -75,6 +78,8 @@
                 android:id="@+id/info"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:textAlignment="center"
+                android:background="@color/colorAccent"
                 android:text="No Movie Selected"
                 android:textSize="45sp"
                 android:visibility="visible"/>

@@ -1,9 +1,12 @@
-package com.example.android.popularmoviesdemo;
+package com.example.android.popularmoviesdemo.Activities;
 
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
+
+import com.example.android.popularmoviesdemo.Utils.AppCompatPreferenceActivity;
+import com.example.android.popularmoviesdemo.R;
 
 public class SettingsActivity extends AppCompatPreferenceActivity {
     private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {

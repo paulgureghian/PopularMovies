@@ -1,13 +1,10 @@
-package com.example.android.popularmoviesdemo;
+package com.example.android.popularmoviesdemo.Fragments;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -19,6 +16,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import com.example.android.popularmoviesdemo.Activities.ReviewActivity;
+import com.example.android.popularmoviesdemo.BuildConfig;
+import com.example.android.popularmoviesdemo.Endpoints.MovieReviewEndpoint;
+import com.example.android.popularmoviesdemo.Endpoints.MovieTrailerEndpoint;
+import com.example.android.popularmoviesdemo.POJOs.Movie;
+import com.example.android.popularmoviesdemo.POJOs.Review;
+import com.example.android.popularmoviesdemo.R;
+import com.example.android.popularmoviesdemo.Utils.SharedPreferenceUtils;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;

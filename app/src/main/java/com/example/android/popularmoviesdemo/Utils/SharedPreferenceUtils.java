@@ -1,7 +1,9 @@
-package com.example.android.popularmoviesdemo;
+package com.example.android.popularmoviesdemo.Utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import com.example.android.popularmoviesdemo.POJOs.Movie;
 import com.google.gson.Gson;
 import java.util.Map;
 

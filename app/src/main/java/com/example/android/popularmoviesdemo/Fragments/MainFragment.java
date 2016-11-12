@@ -1,4 +1,4 @@
-package com.example.android.popularmoviesdemo;
+package com.example.android.popularmoviesdemo.Fragments;
 
 import android.app.Activity;
 import android.content.Context;
@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +15,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.android.popularmoviesdemo.Activities.MainActivity;
+import com.example.android.popularmoviesdemo.Activities.MovieDetailActivity;
+import com.example.android.popularmoviesdemo.BuildConfig;
+import com.example.android.popularmoviesdemo.Endpoints.MoviesApiService;
+import com.example.android.popularmoviesdemo.Endpoints.TopRatedEndpoint;
+import com.example.android.popularmoviesdemo.Fragments.DetailFragment;
+import com.example.android.popularmoviesdemo.POJOs.Movie;
+import com.example.android.popularmoviesdemo.R;
+import com.example.android.popularmoviesdemo.Utils.SharedPreferenceUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

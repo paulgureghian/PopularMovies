@@ -24,6 +24,10 @@
 
     <ListView
         android:id="@+id/listview_review"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:paddingTop="15dp"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

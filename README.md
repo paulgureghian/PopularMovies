@@ -11,4 +11,4 @@ Libraries used:
 # Picasso
 # Gson
 
-frag
+The app also has buttons which launch trailers and reviews, and a setting which allows the user to sort movies by most popular, top rated, and favorites. 

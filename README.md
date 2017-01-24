@@ -12,4 +12,4 @@ Libraries used:
 # Gson
 
 The app also has buttons which launch trailers and reviews, and a setting which allows the user to sort movies by 
-#most popular, top rated, favorites.
+most popular, top rated, favorites.
